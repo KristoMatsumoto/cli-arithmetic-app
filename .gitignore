@@ -1,0 +1,9 @@
+# Envirovmental variables
+.env
+
+# For debug and tests
+test/inputs/*
+test/outputs/*
+
+# Logs
+log/output*
