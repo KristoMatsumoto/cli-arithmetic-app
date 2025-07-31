@@ -2,9 +2,69 @@ package processor
 
 import (
 	"fmt"
-	"strconv"
+	"math"
 	"strings"
+	"unicode"
 )
+
+func ExtractExpressions(line string) []string {
+	var tokens []string
+	var exprBuilder strings.Builder
+	parensCount := 0
+	inExpr := false
+
+	isExprRune := func(r rune) bool {
+		return unicode.IsDigit(r) || unicode.IsSpace(r) || strings.ContainsRune("+-*/%^().", r)
+	}
+
+	for i, r := range line {
+		if isExprRune(r) {
+			switch r {
+			case '(':
+				parensCount++
+			case ')':
+				parensCount--
+			}
+			exprBuilder.WriteRune(r)
+			inExpr = true
+		} else {
+			if inExpr && parensCount <= 0 {
+				expr := strings.TrimSpace(exprBuilder.String())
+				if len(expr) > 0 {
+					tokens = append(tokens, expr)
+				}
+				exprBuilder.Reset()
+				inExpr = false
+				parensCount = 0
+			}
+		}
+
+		// If end of line reached and still building expression
+		if i == len(line)-1 && inExpr {
+			expr := strings.TrimSpace(exprBuilder.String())
+			if len(expr) > 0 {
+				tokens = append(tokens, expr)
+			}
+		}
+	}
+
+	return tokens
+}
+
+func ReplaceFirst(line, old, new string) string {
+	idx := strings.Index(line, old)
+	if idx == -1 {
+		return line
+	}
+	return line[:idx] + new + line[idx+len(old):]
+}
+
+func FormatFloat(f float64) string {
+	if math.Mod(f, 1) == 0 {
+		return fmt.Sprintf("%.0f", f)
+	}
+	return fmt.Sprintf("%.2f", f)
+}
 
 type NaiveProcessor struct{}
 
@@ -16,60 +76,23 @@ func (p *NaiveProcessor) Process(lines []string) ([]string, error) {
 	var results []string
 
 	for _, line := range lines {
-		modified := line
-		tokens := strings.FieldsFunc(line, func(r rune) bool {
-			return r == ' ' || r == ',' || r == '.' || r == ':' || r == ';'
-		})
+		original := line
+		expressions := ExtractExpressions(line)
 
-		for _, token := range tokens {
-			val, err := evaluate(token)
-			if err == nil {
-				modified = strings.Replace(modified, token, val, 1)
+		for _, expr := range expressions {
+			val, err := EvalExpression(expr)
+			var replacement string
+
+			if err != nil {
+				replacement = "NaN"
+			} else {
+				replacement = FormatFloat(val)
 			}
+
+			original = ReplaceFirst(original, expr, replacement)
 		}
-		results = append(results, modified)
+		results = append(results, original)
 	}
 
 	return results, nil
-}
-
-func evaluate(expr string) (string, error) {
-	expr = strings.ReplaceAll(expr, " ", "")
-
-	opIndex := -1
-	for i, r := range expr {
-		if r == '+' || r == '-' || r == '*' || r == '/' {
-			opIndex = i
-			break
-		}
-	}
-	if opIndex == -1 {
-		return "0", fmt.Errorf("no operation found")
-	}
-
-	aStr := expr[:opIndex]
-	bStr := expr[opIndex+1:]
-	operator := expr[opIndex]
-
-	a, err1 := strconv.ParseFloat(aStr, 64)
-	b, err2 := strconv.ParseFloat(bStr, 64)
-	if err1 != nil || err2 != nil {
-		return "0", fmt.Errorf("invalid numbers")
-	}
-
-	switch operator {
-	case '+':
-		return fmt.Sprintf("%v", a+b), nil
-	case '-':
-		return fmt.Sprintf("%v", a-b), nil
-	case '*':
-		return fmt.Sprintf("%v", a*b), nil
-	case '/':
-		if b == 0 {
-			return "NaN", nil
-		}
-		return fmt.Sprintf("%v", a/b), nil
-	default:
-		return "0", fmt.Errorf("unsupported operator")
-	}
 }

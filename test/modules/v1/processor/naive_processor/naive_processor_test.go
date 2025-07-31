@@ -7,6 +7,12 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+type TestCase struct {
+	Name     string   `json:"name"`
+	Input    []string `json:"input"`
+	Expected []string `json:"expected"`
+}
+
 func TestNaiveProcessor_Process(t *testing.T) {
 	p := processor.NewNaiveProcessor()
 
@@ -40,7 +46,7 @@ func TestNaiveProcessor_Process(t *testing.T) {
 		{
 			name: "multiple in one line",
 			input: []string{
-				"1+2 then 3*4 then 10-5",
+				"1 + 2 then 3*4 then 10-5",
 			},
 			expected: []string{
 				"3 then 12 then 5",
@@ -55,4 +61,22 @@ func TestNaiveProcessor_Process(t *testing.T) {
 			assert.Equal(t, test.expected, result)
 		})
 	}
+}
+
+// Should be more
+func TestExtractExpressions(t *testing.T) {
+	line := "Some text 2+2 and (3*3) and plain text"
+	exprs := processor.ExtractExpressions(line)
+	assert.ElementsMatch(t, []string{"2+2", "(3*3)"}, exprs)
+}
+
+func TestReplaceFirst(t *testing.T) {
+	input := "calculate 2+2 and 2+2 again"
+	result := processor.ReplaceFirst(input, "2+2", "4")
+	assert.Equal(t, "calculate 4 and 2+2 again", result)
+}
+
+func TestFormatFloat(t *testing.T) {
+	assert.Equal(t, "5", processor.FormatFloat(5.0))
+	assert.Equal(t, "5.50", processor.FormatFloat(5.5))
 }

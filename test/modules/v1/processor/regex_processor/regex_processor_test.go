@@ -4,9 +4,6 @@ import (
 	"cli-arithmetic-app/modules/v1/processor"
 	"testing"
 
-	// 	"encoding/json"
-	// 	"os"
-	// 	"path/filepath"
 	"github.com/stretchr/testify/assert"
 )
 
