@@ -8,8 +8,16 @@ require (
 )
 
 require (
+	github.com/google/uuid v1.3.0 // indirect
+	github.com/ozontech/allure-go/pkg/allure v0.6.14 // indirect
+	github.com/pkg/errors v0.9.1 // indirect
+)
+
+require (
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/inconshreveable/mousetrap v1.1.0 // indirect
+	github.com/ozontech/allure-go v0.7.2 // indirect
+	github.com/ozontech/allure-go/pkg/framework v0.7.2
 	github.com/pmezard/go-difflib v1.0.0 // indirect
 	github.com/sirupsen/logrus v1.9.3 // indirect
 	github.com/spf13/cobra v1.9.1 // indirect

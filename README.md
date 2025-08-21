@@ -22,3 +22,27 @@ Options:
 `--processor-version=[VALUE] || -p [VALUE]` Processor version (1 for naive, 2 for regex processor) (default: "1")
 
 `--version=[VALUE] || -v [VALUE]` The logic version (only "1" now)
+
+---
+
+## Testing
+
+To test project we use allure ([ozontech/allure-go](https://github.com/ozontech/allure-go)).
+
+To run test and create html-report page use:
+
+- for Bash / Linux / macOS **test/run.sh**
+
+- for Windows **test/run.ps1**
+
+To start allure server: 
+
+`allure serve ./test/allure-results`
+
+---
+
+Kristo Matsumoto
+
+July 2025
+
+In progress...
