@@ -1,0 +1,39 @@
+[
+    { "name": "simple add",                 "input": "1+2",                     "expected": "3" },
+    { "name": "simple sub",                 "input": "7-4",                     "expected": "3" },
+    { "name": "simple mul",                 "input": "3*5",                     "expected": "15" },
+    { "name": "simple div",                 "input": "10/5",                    "expected": "2" },
+    { "name": "float add",                  "input": "0.5 + 1.25",              "expected": "1.75" },
+    { "name": "float mul",                  "input": "2.5*2",                   "expected": "5" },
+
+    { "name": "precedence mul over add",    "input": "2+3*4",                   "expected": "14" },
+    { "name": "precedence with parens",     "input": "(2+3)*4",                 "expected": "20" },
+    { "name": "nested parens",              "input": "((1+2)*(3+4))/7",         "expected": "3" },
+    { "name": "extra parens",               "input": "((1+2)) + ((3))",         "expected": "6" },
+    { "name": "spaces inside",              "input": "  (  6 + 5 ) * 3 - 4 ",   "expected": "29" },
+
+    { "name": "unary minus simple",         "input": "-5+10",                   "expected": "5" },
+    { "name": "unary minus after op",       "input": "10+-7",                   "expected": "3" },
+    { "name": "unary minus before op",      "input": "--20+3",                  "expected": "23" },
+    { "name": "unary minus before parens",  "input": "-(20+3)*2",               "expected": "-46" },
+    { "name": "unary minus after parens",   "input": "8*(-20)",                 "expected": "-160" },
+    { "name": "double unary",               "input": "--2",                     "expected": "2" },
+    { "name": "triple unary",               "input": "---60",                   "expected": "-60" },
+    { "name": "unary with parens",          "input": "-(3+2)*2",                "expected": "-10" },
+    { "name": "multiple unaries combo",     "input": "-(-3)+2",                 "expected": "5" },
+
+    { "name": "power basic",                "input": "2^3",                     "expected": "8" },
+    { "name": "power right assoc",          "input": "2^3^2",                   "expected": "512" },
+    { "name": "power with parens",          "input": "(2^3)^2",                 "expected": "64" },
+
+    { "name": "modulo basic",               "input": "5%2",                     "expected": "1" },
+    { "name": "modulo zero right",          "input": "5%0",                     "expected": "NaN" },
+
+    { "name": "division by zero",           "input": "10/0",                    "expected": "NaN" },
+    { "name": "mismatched paren open",      "input": "9 + (7 - 8",              "expected": "NaN" },
+    { "name": "mismatched paren close",     "input": "5+4)",                    "expected": "NaN" },
+
+    { "name": "complex spaces",             "input": "1 + (2) + (3+4*(1+1))",   "expected": "14" },
+    { "name": "zero modulo",                "input": "0%5",                     "expected": "0" },
+    { "name": "division nested",            "input": "10/(2+3)",                "expected": "2" }
+]

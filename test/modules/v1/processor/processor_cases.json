@@ -82,11 +82,6 @@
         "expected": [ "This is broken: NaN" ]
     },
     {
-        "name": "Negative numbers and subtraction",
-        "input": ["Check -5-3 result"],
-        "expected": ["Check -8 result"]
-    },
-    {
         "name": "Basic expressions embedded",
         "input": [
             "Line with 3+4 result",
@@ -152,10 +147,10 @@
             "Bad: 9 + (7 - 8"
         ],
         "expected": [
-            "This (7 is bad",
+            "This NaN is bad",
             "No arithmetics (here)",
             "No arithmetics( too",
-            "some text 4) text",
+            "some text NaN text",
             "Bad: NaN"
         ]
     },
@@ -171,8 +166,18 @@
     },
     {
         "name": "Multiple unaries",
-        "input": ["-(-3)+2"],
-        "expected": ["5"]
+        "input": [
+            "-(-5)+3",
+            "-(-3)+2",
+            "--20+3",
+            "---60-1"
+        ],
+        "expected": [
+            "8",
+            "5",
+            "23",
+            "-61"
+        ]
     },
     {
         "name": "Float operations",

@@ -1,0 +1,17 @@
+[
+    {
+        "name": "integer value",
+        "input": 5.0,
+        "expected": "5"
+    },
+    {
+        "name": "float value",
+        "input": 5.5,
+        "expected": "5.50"
+    },
+    {
+        "name": "two decimals",
+        "input": 3.1415,
+        "expected": "3.14"
+    }
+]

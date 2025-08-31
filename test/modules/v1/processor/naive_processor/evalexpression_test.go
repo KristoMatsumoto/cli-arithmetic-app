@@ -1,0 +1,53 @@
+package naive_processor_test
+
+import (
+	"cli-arithmetic-app/modules/v1/processor"
+	"encoding/json"
+	"strconv"
+	"testing"
+
+	"github.com/ozontech/allure-go/pkg/framework/provider"
+	"github.com/ozontech/allure-go/pkg/framework/runner"
+	"github.com/stretchr/testify/assert"
+)
+
+type EvalCase struct {
+	Name     string `json:"name"`
+	Input    string `json:"input"`
+	Expected string `json:"expected"`
+}
+
+func TestEvalExpression(t *testing.T) {
+	data := loadCases(t, "testdata/evalexpression_cases.json")
+	var cases []EvalCase
+	if err := json.Unmarshal(data, &cases); err != nil {
+		t.Fatalf("Failed to unmarshal: %v", err)
+	}
+
+	for _, c := range cases {
+		runner.Run(t, c.Name, func(t provider.T) {
+			output, err := processor.EvalExpression(c.Input)
+
+			if c.Expected == "NaN" {
+				t.Assert().Error(err, "expected an error for %q", c.Input)
+				return
+			}
+
+			want, perr := strconv.ParseFloat(c.Expected, 64)
+			if perr != nil {
+				t.Fatalf("bad expected value %q in case %q: %v", c.Expected, c.Name, perr)
+			}
+			t.Require().NoError(err, "unexpected error for %q", c.Input)
+
+			// сравниваем с допуском, чтобы не спотыкаться на double
+			const eps = 1e-9
+			if diff := output - want; diff < -eps || diff > eps {
+				t.Errorf("EvalExpression(%q) = %v, want %v", c.Input, output, want)
+			}
+
+			t.WithNewStep("Compare input and output", func(sCtx provider.StepCtx) {
+				assert.Equal(t, c.Expected, processor.FormatFloat(output))
+			})
+		})
+	}
+}

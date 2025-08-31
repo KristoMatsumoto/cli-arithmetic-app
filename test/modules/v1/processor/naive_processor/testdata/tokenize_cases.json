@@ -1,0 +1,117 @@
+[
+    {
+        "name": "simple addition",
+        "input": "1+2",
+        "expected": [
+            { "Type": 0, "Value": "1" },
+            { "Type": 1, "Value": "+" },
+            { "Type": 0, "Value": "2" }
+        ]
+    },
+    {
+        "name": "with parentheses",
+        "input": "(3*4)",
+        "expected": [
+            { "Type": 2, "Value": "(" },
+            { "Type": 0, "Value": "3" },
+            { "Type": 1, "Value": "*" },
+            { "Type": 0, "Value": "4" },
+            { "Type": 3, "Value": ")" }
+        ]
+    },
+    {
+        "name": "big numbers with decimal",
+        "input": "333+777.7",
+        "expected": [
+            { "Type": 0, "Value": "333" },
+            { "Type": 1, "Value": "+" },
+            { "Type": 0, "Value": "777.7" }
+        ]
+    },
+    {
+        "name": "negative number at start (unary minus)",
+        "input": "-5+10",
+        "expected": [
+            { "Type": 1, "Value": "UMINUS" },
+            { "Type": 0, "Value": "5" },
+            { "Type": 1, "Value": "+" },
+            { "Type": 0, "Value": "10" }
+        ]
+    },
+    {
+        "name": "double unary minus at start",
+        "input": "--20+3",
+        "expected": [
+            { "Type": 1, "Value": "UMINUS" },
+            { "Type": 1, "Value": "UMINUS" },
+            { "Type": 0, "Value": "20" },
+            { "Type": 1, "Value": "+" },
+            { "Type": 0, "Value": "3" }
+        ]
+    },
+    {
+        "name": "minus minus after number",
+        "input": "15--7",
+        "expected": [
+            { "Type": 0, "Value": "15" },
+            { "Type": 1, "Value": "-" },
+            { "Type": 1, "Value": "UMINUS" },
+            { "Type": 0, "Value": "7" }
+        ]
+    },
+    {
+        "name": "number with spaces around operators",
+        "input": "  -5   + 10 ",
+        "expected": [
+            { "Type": 1, "Value": "UMINUS" },
+            { "Type": 0, "Value": "5" },
+            { "Type": 1, "Value": "+" },
+            { "Type": 0, "Value": "10" }
+        ]
+    },
+    {
+        "name": "nested parentheses with unary",
+        "input": "-(2+3)",
+        "expected": [
+            { "Type": 1, "Value": "UMINUS" },
+            { "Type": 2, "Value": "(" },
+            { "Type": 0, "Value": "2" },
+            { "Type": 1, "Value": "+" },
+            { "Type": 0, "Value": "3" },
+            { "Type": 3, "Value": ")" }
+        ]
+    },
+    {
+        "name": "multiple operators with unary inside",
+        "input": "4*-2",
+        "expected": [
+            { "Type": 0, "Value": "4" },
+            { "Type": 1, "Value": "*" },
+            { "Type": 1, "Value": "UMINUS" },
+            { "Type": 0, "Value": "2" }
+        ]
+    },
+    {
+        "name": "triple unary minus",
+        "input": "---7",
+        "expected": [
+            { "Type": 1, "Value": "UMINUS" },
+            { "Type": 1, "Value": "UMINUS" },
+            { "Type": 1, "Value": "UMINUS" },
+            { "Type": 0, "Value": "7" }
+        ]
+    },
+    {
+        "name": "unary minus with parents",
+        "input": "-(-5)+3",
+        "expected": [
+            { "Type": 1, "Value": "UMINUS" },
+            { "Type": 2, "Value": "(" },
+            { "Type": 1, "Value": "UMINUS" },
+            { "Type": 0, "Value": "5" },
+            { "Type": 3, "Value": ")" },
+            { "Type": 1, "Value": "+" },
+            { "Type": 0, "Value": "3" }
+        ]
+    }
+]
