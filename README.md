@@ -52,8 +52,6 @@ Options:
 
 ```
 
-`allure serve ./test/allure-results`
-
 ---
 
 Kristo Matsumoto
