@@ -1,14 +1,33 @@
+param (
+    [switch]$clean,
+    [switch]$report,
+    [switch]$server    
+)
+
 $env:ALLURE_OUTPUT_PATH = (Get-Location).Path
 $env:ALLURE_OUTPUT_FOLDER = "allure-results"
 
+# -clean 
 # Clean old information
-Remove-Item -Recurse -Force "$env:ALLURE_OUTPUT_PATH\$env:ALLURE_OUTPUT_FOLDER" -ErrorAction SilentlyContinue
+if ($clean) {    
+    Remove-Item -Recurse -Force "$env:ALLURE_OUTPUT_PATH\$env:ALLURE_OUTPUT_FOLDER" -ErrorAction SilentlyContinue
+    Write-Host "Old results have been cleaned."
+}
 
 # Tests running
-go test -v ./...
+go test -v ./... 
+Write-Host "Allure results collected in $env:ALLURE_OUTPUT_PATH\$env:ALLURE_OUTPUT_FOLDER."
 
+# -report
 # Report generation
-allure generate "$env:ALLURE_OUTPUT_PATH\$env:ALLURE_OUTPUT_FOLDER" --clean -o "$env:ALLURE_OUTPUT_PATH\allure-report"
+if ($report) { 
+    allure generate "$env:ALLURE_OUTPUT_PATH\$env:ALLURE_OUTPUT_FOLDER" --clean -o "$env:ALLURE_OUTPUT_PATH\allure-report"
+    Write-Host "HTML report generated in $env:ALLURE_OUTPUT_PATH\allure-report."
+}
 
-Write-Host "Allure results collected in $env:ALLURE_OUTPUT_PATH\$env:ALLURE_OUTPUT_FOLDER"
-Write-Host "HTML report generated in $env:ALLURE_OUTPUT_PATH\allure-report"
+# -server
+# Starting Allure host
+if ($server) {
+    Write-Host "Starting Allure server..."
+    allure serve "$env:ALLURE_OUTPUT_PATH\$env:ALLURE_OUTPUT_FOLDER"
+}

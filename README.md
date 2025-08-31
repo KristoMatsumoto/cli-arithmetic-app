@@ -25,17 +25,32 @@ Options:
 
 ---
 
+## Documentation
+
+In progress...
+
+---
+
 ## Testing
 
 To test project we use allure ([ozontech/allure-go](https://github.com/ozontech/allure-go)).
 
 To run test and create html-report page use:
 
-- for Bash / Linux / macOS **test/run.sh**
+- for Bash / Linux / macOS: **./run.sh** (from /test)
 
-- for Windows **test/run.ps1**
+- for Windows: **./run.ps1** (from /test)
 
-To start allure server: 
+Options:
+
+```
+[ Windows  |    Bash   |    Bash ]
+        option                          description
+-clean      --clean         -c      clean old test information
+-report     --report        -r      create allure html-report
+-server     --server        -s      start allure server
+
+```
 
 `allure serve ./test/allure-results`
 
