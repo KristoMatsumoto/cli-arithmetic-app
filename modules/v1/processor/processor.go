@@ -2,6 +2,7 @@ package processor
 
 import (
 	"cli-arithmetic-app/modules/v1/processor/naive_processor"
+	"cli-arithmetic-app/modules/v1/processor/regex_processor"
 	"fmt"
 )
 
@@ -16,7 +17,7 @@ func CreateProcessor(mode string) (Processor, error) {
 	case "1":
 		return naive_processor.NewNaiveProcessor(), nil
 	case "2":
-		return NewRegexProcessor(), nil
+		return regex_processor.NewRegexProcessor(), nil
 	default:
 		return nil, fmt.Errorf("unsupported processor mode: %s", mode)
 	}

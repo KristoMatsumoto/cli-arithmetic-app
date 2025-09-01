@@ -283,6 +283,9 @@ func EvalExpression(expr string) (float64, error) {
 }
 
 func FormatFloat(f float64) string {
+	if math.IsNaN(f) {
+		return "NaN"
+	}
 	if math.Mod(f, 1) == 0 {
 		return fmt.Sprintf("%.0f", f)
 	}
