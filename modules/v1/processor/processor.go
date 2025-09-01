@@ -1,6 +1,9 @@
 package processor
 
-import "fmt"
+import (
+	"cli-arithmetic-app/modules/v1/processor/naive_processor"
+	"fmt"
+)
 
 // Processor defines interface for arithmetic expression processing
 type Processor interface {
@@ -11,7 +14,7 @@ type Processor interface {
 func CreateProcessor(mode string) (Processor, error) {
 	switch mode {
 	case "1":
-		return NewNaiveProcessor(), nil
+		return naive_processor.NewNaiveProcessor(), nil
 	case "2":
 		return NewRegexProcessor(), nil
 	default:

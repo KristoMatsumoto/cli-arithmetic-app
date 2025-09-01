@@ -1,7 +1,7 @@
 package naive_processor_test
 
 import (
-	"cli-arithmetic-app/modules/v1/processor"
+	"cli-arithmetic-app/modules/v1/processor/naive_processor"
 	"encoding/json"
 	"os"
 	"testing"
@@ -17,8 +17,6 @@ type TestCase struct {
 }
 
 func loadCases(t *testing.T, path string) []byte {
-	// t.Helper()
-
 	data, err := os.ReadFile(path)
 	if err != nil {
 		t.Fatalf("Failed to read %s: %v", path, err)
@@ -34,7 +32,7 @@ func TestNaiveProcessor_Process(t *testing.T) {
 		t.Fatalf("Failed to unmarshal: %v", err)
 	}
 
-	p := processor.NewNaiveProcessor()
+	p := naive_processor.NewNaiveProcessor()
 
 	for _, c := range cases {
 		runner.Run(t, c.Name, func(t provider.T) {

@@ -1,7 +1,7 @@
-package naive_processor_test
+package regex_processor_test
 
 import (
-	"cli-arithmetic-app/modules/v1/processor/naive_processor"
+	"cli-arithmetic-app/modules/v1/processor/regex_processor"
 	"encoding/json"
 	"testing"
 
@@ -16,7 +16,7 @@ type FormatCase struct {
 	Expected string  `json:"expected"`
 }
 
-func TestNaiveProcessor_FormatFloat(t *testing.T) {
+func TestRegexProcessor_FormatFloat(t *testing.T) {
 	data := loadCases(t, "../formatfloat_cases.json")
 	var cases []FormatCase
 	if err := json.Unmarshal(data, &cases); err != nil {
@@ -25,7 +25,7 @@ func TestNaiveProcessor_FormatFloat(t *testing.T) {
 
 	for _, c := range cases {
 		runner.Run(t, c.Name, func(t provider.T) {
-			result := naive_processor.FormatFloat(c.Input)
+			result := regex_processor.FormatFloat(c.Input)
 			assert.Equal(t, c.Expected, result)
 		})
 	}

@@ -1,7 +1,7 @@
 package naive_processor_test
 
 import (
-	"cli-arithmetic-app/modules/v1/processor"
+	"cli-arithmetic-app/modules/v1/processor/naive_processor"
 	"encoding/json"
 	"testing"
 
@@ -10,13 +10,13 @@ import (
 )
 
 type TokenizeCase struct {
-	Name     string            `json:"name"`
-	Input    string            `json:"input"`
-	Expected []processor.Token `json:"expected"`
+	Name     string                  `json:"name"`
+	Input    string                  `json:"input"`
+	Expected []naive_processor.Token `json:"expected"`
 }
 
-func TestTokenize(t *testing.T) {
-	data := loadCases(t, "testdata/tokenize_cases.json")
+func TestNaiveProcessor_Tokenize(t *testing.T) {
+	data := loadCases(t, "../tokenize_cases.json")
 	var cases []TokenizeCase
 	if err := json.Unmarshal(data, &cases); err != nil {
 		t.Fatalf("Failed to unmarshal: %v", err)
@@ -24,7 +24,7 @@ func TestTokenize(t *testing.T) {
 
 	for _, c := range cases {
 		runner.Run(t, c.Name, func(t provider.T) {
-			result, err := processor.Tokenize(c.Input)
+			result, err := naive_processor.Tokenize(c.Input)
 			t.Require().NoError(err)
 			t.Assert().Equal(c.Expected, result)
 		})

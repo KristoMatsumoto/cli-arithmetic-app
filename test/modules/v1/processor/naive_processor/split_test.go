@@ -1,7 +1,7 @@
 package naive_processor_test
 
 import (
-	"cli-arithmetic-app/modules/v1/processor"
+	"cli-arithmetic-app/modules/v1/processor/naive_processor"
 	"encoding/json"
 	"testing"
 
@@ -10,13 +10,13 @@ import (
 )
 
 type SplitCase struct {
-	Name     string                `json:"name"`
-	Input    string                `json:"input"`
-	Expected []processor.TokenPart `json:"expected"`
+	Name     string                      `json:"name"`
+	Input    string                      `json:"input"`
+	Expected []naive_processor.TokenPart `json:"expected"`
 }
 
-func TestSplitIntoTextAndExpr(t *testing.T) {
-	data := loadCases(t, "testdata/split_cases.json")
+func TestNaiveProcessor_SplitIntoTokens(t *testing.T) {
+	data := loadCases(t, "../split_cases.json")
 	var cases []SplitCase
 	if err := json.Unmarshal(data, &cases); err != nil {
 		t.Fatalf("Failed to unmarshal: %v", err)
@@ -24,7 +24,7 @@ func TestSplitIntoTextAndExpr(t *testing.T) {
 
 	for _, c := range cases {
 		runner.Run(t, c.Name, func(t provider.T) {
-			result := processor.SplitIntoTokens(c.Input)
+			result := naive_processor.SplitIntoTokens(c.Input)
 			t.Assert().Equal(c.Expected, result)
 		})
 	}

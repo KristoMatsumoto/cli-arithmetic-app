@@ -1,4 +1,4 @@
-package processor
+package naive_processor
 
 import (
 	"fmt"

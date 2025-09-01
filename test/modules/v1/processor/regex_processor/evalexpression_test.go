@@ -1,0 +1,40 @@
+package regex_processor_test
+
+import (
+	"cli-arithmetic-app/modules/v1/processor/regex_processor"
+	"encoding/json"
+	"math"
+	"testing"
+
+	"github.com/ozontech/allure-go/pkg/framework/provider"
+	"github.com/ozontech/allure-go/pkg/framework/runner"
+)
+
+type EvalCase struct {
+	Name     string  `json:"name"`
+	Input    string  `json:"input"`
+	Expected float64 `json:"expected"`
+	Error    bool    `json:"error"`
+}
+
+func TestRegexProcessor_EvalExpression(t *testing.T) {
+	data := loadCases(t, "../eval_cases.json")
+	var cases []EvalCase
+	if err := json.Unmarshal(data, &cases); err != nil {
+		t.Fatalf("Failed to unmarshal: %v", err)
+	}
+
+	for _, c := range cases {
+		runner.Run(t, c.Name, func(t provider.T) {
+			result, err := regex_processor.EvalExpression(c.Input)
+			if c.Error {
+				t.Require().Error(err)
+			} else {
+				t.Require().NoError(err)
+				if math.Abs(result-c.Expected) > 1e-9 {
+					t.Errorf("EvalExpression(%q) = %v, want %v", c.Input, result, c.Expected)
+				}
+			}
+		})
+	}
+}
