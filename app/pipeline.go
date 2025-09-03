@@ -2,8 +2,6 @@ package app
 
 import (
 	logger "cli-arithmetic-app/log"
-	"cli-arithmetic-app/modules/v1/parser"
-	"cli-arithmetic-app/modules/v1/processor"
 )
 
 func ExecuteProcessingPipeline(options PipelineOptions) error {
@@ -24,7 +22,7 @@ func ExecuteProcessingPipeline(options PipelineOptions) error {
 	// }
 
 	// Parsing
-	parserInstance, err := parser.CreateParser(options.Format)
+	parserInstance, err := CreateParser(options.Format)
 	if err != nil {
 		return err
 	}
@@ -38,7 +36,7 @@ func ExecuteProcessingPipeline(options PipelineOptions) error {
 
 	// Get processor
 	logger.Log.Infof("Starting processor %s", options.ProcessorType)
-	processorInstance, err := processor.CreateProcessor(options.ProcessorType)
+	processorInstance, err := CreateProcessor(options.ProcessorType)
 	if err != nil {
 		return err
 	}

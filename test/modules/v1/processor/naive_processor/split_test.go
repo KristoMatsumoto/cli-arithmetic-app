@@ -2,6 +2,7 @@ package naive_processor_test
 
 import (
 	"cli-arithmetic-app/modules/v1/processor/naive_processor"
+	"cli-arithmetic-app/utils/cases"
 	"encoding/json"
 	"testing"
 
@@ -16,7 +17,7 @@ type SplitCase struct {
 }
 
 func TestNaiveProcessor_SplitIntoTokens(t *testing.T) {
-	data := loadCases(t, "../split_cases.json")
+	data := cases.LoadCases(t, "../split_cases.json")
 	var cases []SplitCase
 	if err := json.Unmarshal(data, &cases); err != nil {
 		t.Fatalf("Failed to unmarshal: %v", err)

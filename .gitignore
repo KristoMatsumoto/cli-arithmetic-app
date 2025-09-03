@@ -2,12 +2,12 @@
 .env
 
 # For debug and tests
-test/inputs/*
-test/outputs/*
+test/inputs/
+test/outputs/
 
 # Logs
 log/output*
 
 # Allure
-test/allure-results/
-test/allure-report/
+allure-results/
+allure-report/

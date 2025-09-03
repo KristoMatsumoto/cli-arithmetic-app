@@ -1,7 +1,9 @@
 package naive_processor_test
 
 import (
+	"cli-arithmetic-app/modules/v1/processor"
 	"cli-arithmetic-app/modules/v1/processor/naive_processor"
+	"cli-arithmetic-app/utils/cases"
 	"encoding/json"
 	"strconv"
 	"testing"
@@ -18,7 +20,7 @@ type EvalCase struct {
 }
 
 func TestNaiveProcessor_EvalExpression(t *testing.T) {
-	data := loadCases(t, "../evalexpression_cases.json")
+	data := cases.LoadCases(t, "../evalexpression_cases.json")
 	var cases []EvalCase
 	if err := json.Unmarshal(data, &cases); err != nil {
 		t.Fatalf("Failed to unmarshal: %v", err)
@@ -46,7 +48,7 @@ func TestNaiveProcessor_EvalExpression(t *testing.T) {
 			}
 
 			t.WithNewStep("Compare input and output", func(sCtx provider.StepCtx) {
-				assert.Equal(t, c.Expected, naive_processor.FormatFloat(output))
+				assert.Equal(t, c.Expected, processor.FormatFloat(output))
 			})
 		})
 	}

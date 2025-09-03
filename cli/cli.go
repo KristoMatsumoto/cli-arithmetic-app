@@ -21,7 +21,7 @@ func init() {
 	rootCmd.PersistentFlags().StringVarP(&processor, "processor-version", "p", "1", "Processor version (1, 2 or 3)")
 	rootCmd.PersistentFlags().StringVarP(&inPath, "in", "i", "test/inputs/input.txt", "Input file path")
 	rootCmd.PersistentFlags().StringVarP(&outPath, "out", "o", "test/outputs/output", "Output file path")
-	rootCmd.PersistentFlags().StringVarP(&format, "format", "f", "txt", "Input/output format (txt, json, xml, yaml)")
+	rootCmd.PersistentFlags().StringVarP(&format, "format", "f", "txt", "Input/output format (txt, html, json, xml, yaml)")
 }
 
 var rootCmd = &cobra.Command{

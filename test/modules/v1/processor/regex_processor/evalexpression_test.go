@@ -2,6 +2,7 @@ package regex_processor_test
 
 import (
 	"cli-arithmetic-app/modules/v1/processor/regex_processor"
+	"cli-arithmetic-app/utils/cases"
 	"encoding/json"
 	"math"
 	"testing"
@@ -18,7 +19,7 @@ type EvalCase struct {
 }
 
 func TestRegexProcessor_EvalExpression(t *testing.T) {
-	data := loadCases(t, "../eval_cases.json")
+	data := cases.LoadCases(t, "../eval_cases.json")
 	var cases []EvalCase
 	if err := json.Unmarshal(data, &cases); err != nil {
 		t.Fatalf("Failed to unmarshal: %v", err)

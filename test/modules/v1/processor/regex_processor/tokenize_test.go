@@ -2,6 +2,7 @@ package regex_processor_test
 
 import (
 	"cli-arithmetic-app/modules/v1/processor/regex_processor"
+	"cli-arithmetic-app/utils/cases"
 	"encoding/json"
 	"testing"
 
@@ -16,7 +17,7 @@ type TokenizeCase struct {
 }
 
 func TestRegexProcessor_Tokenize(t *testing.T) {
-	data := loadCases(t, "../tokenize_cases.json")
+	data := cases.LoadCases(t, "../tokenize_cases.json")
 	var cases []TokenizeCase
 	if err := json.Unmarshal(data, &cases); err != nil {
 		t.Fatalf("Failed to unmarshal: %v", err)

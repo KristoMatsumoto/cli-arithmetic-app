@@ -2,8 +2,8 @@ package regex_processor_test
 
 import (
 	"cli-arithmetic-app/modules/v1/processor/regex_processor"
+	"cli-arithmetic-app/utils/cases"
 	"encoding/json"
-	"os"
 	"testing"
 
 	"github.com/ozontech/allure-go/pkg/framework/provider"
@@ -16,17 +16,8 @@ type TestCase struct {
 	Expected []string `json:"expected"`
 }
 
-func loadCases(t *testing.T, path string) []byte {
-	data, err := os.ReadFile(path)
-	if err != nil {
-		t.Fatalf("Failed to read %s: %v", path, err)
-	}
-
-	return data
-}
-
 func TestRegexProcessor_Process(t *testing.T) {
-	data := loadCases(t, "../processor_cases.json")
+	data := cases.LoadCases(t, "../processor_cases.json")
 	var cases []TestCase
 	if err := json.Unmarshal(data, &cases); err != nil {
 		t.Fatalf("Failed to unmarshal: %v", err)
