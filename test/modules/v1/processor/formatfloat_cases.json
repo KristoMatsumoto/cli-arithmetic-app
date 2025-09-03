@@ -13,5 +13,45 @@
         "name": "two decimals",
         "input": 3.1415,
         "expected": "3.14"
+    },
+    {
+        "name": "positive integer",
+        "input": 5.0,
+        "expected": "5"
+    },
+    {
+        "name": "zero integer",
+        "input": 0.0,
+        "expected": "0"
+    },
+    {
+        "name": "negative integer",
+        "input": -7.0,
+        "expected": "-7"
+    },
+    {
+        "name": "positive float with .5",
+        "input": 5.5,
+        "expected": "5.50"
+    },
+    {
+        "name": "positive float with more decimals",
+        "input": 3.1415,
+        "expected": "3.14"
+    },
+    {
+        "name": "negative float",
+        "input": -2.718,
+        "expected": "-2.72"
+    },
+    {
+        "name": "small float rounding",
+        "input": 0.0049,
+        "expected": "0.00"
+    },
+    {
+        "name": "small float rounded up",
+        "input": 0.005,
+        "expected": "0.01"
     }
 ]

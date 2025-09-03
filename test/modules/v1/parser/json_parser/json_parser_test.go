@@ -8,7 +8,6 @@ import (
 
 	"github.com/ozontech/allure-go/pkg/framework/provider"
 	"github.com/ozontech/allure-go/pkg/framework/runner"
-	"github.com/stretchr/testify/assert"
 )
 
 func TestJSONParser_ReadWrite(t *testing.T) {
@@ -19,18 +18,18 @@ func TestJSONParser_ReadWrite(t *testing.T) {
 
 		t.WithNewStep("Write data to temp JSON file", func(sCtx provider.StepCtx) {
 			err := p.WriteFile(tempFile, input)
-			assert.NoError(t, err)
+			t.Assert().NoError(err)
 		})
 
 		var output []string
 		t.WithNewStep("Read data back from temp JSON file", func(sCtx provider.StepCtx) {
 			var err error
 			output, err = p.ReadFile(tempFile)
-			assert.NoError(t, err)
+			t.Assert().NoError(err)
 		})
 
 		t.WithNewStep("Compare written and read data", func(sCtx provider.StepCtx) {
-			assert.Equal(t, input, output)
+			t.Assert().Equal(input, output)
 		})
 
 		_ = os.Remove(tempFile)

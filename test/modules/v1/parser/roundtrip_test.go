@@ -9,7 +9,6 @@ import (
 
 	"github.com/ozontech/allure-go/pkg/framework/provider"
 	"github.com/ozontech/allure-go/pkg/framework/runner"
-	"github.com/stretchr/testify/assert"
 )
 
 func roundtrip(t provider.T, p parser.Parser, inputPath string) {
@@ -19,23 +18,23 @@ func roundtrip(t provider.T, p parser.Parser, inputPath string) {
 	t.WithNewStep("Read original file", func(sCtx provider.StepCtx) {
 		var err error
 		original, err = p.ReadFile(inputPath)
-		assert.NoError(t, err, "reading original file")
+		t.Assert().NoError(err, "reading original file")
 	})
 
 	t.WithNewStep("Write content to temp file", func(sCtx provider.StepCtx) {
 		err := p.WriteFile(tempFile, original)
-		assert.NoError(t, err, "writing roundtrip file")
+		t.Assert().NoError(err, "writing roundtrip file")
 	})
 
 	var reconstructed []string
 	t.WithNewStep("Read back from temp file", func(sCtx provider.StepCtx) {
 		var err error
 		reconstructed, err = p.ReadFile(tempFile)
-		assert.NoError(t, err, "reading roundtrip file")
+		t.Assert().NoError(err, "reading roundtrip file")
 	})
 
 	t.WithNewStep("Compare original and reconstructed content", func(sCtx provider.StepCtx) {
-		assert.Equal(t, original, reconstructed, "roundtrip mismatch")
+		t.Assert().Equal(original, reconstructed, "roundtrip mismatch")
 	})
 
 	_ = os.Remove(tempFile)

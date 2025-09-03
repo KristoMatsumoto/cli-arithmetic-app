@@ -8,10 +8,9 @@ import (
 
 	"github.com/ozontech/allure-go/pkg/framework/provider"
 	"github.com/ozontech/allure-go/pkg/framework/runner"
-	"github.com/stretchr/testify/assert"
 )
 
-func TestTextParser_ReadWrite(t *testing.T) {
+func TestTXTParser_ReadWrite(t *testing.T) {
 	runner.Run(t, "TXT Parser: Read & Write", func(t provider.T) {
 		p := parser.NewTextParser()
 		tempFile := filepath.Join(os.TempDir(), "text_test.txt")
@@ -19,18 +18,18 @@ func TestTextParser_ReadWrite(t *testing.T) {
 
 		t.WithNewStep("Write data to temp TXT file", func(sCtx provider.StepCtx) {
 			err := p.WriteFile(tempFile, input)
-			assert.NoError(t, err)
+			t.Assert().NoError(err)
 		})
 
 		var output []string
 		t.WithNewStep("Read data back from temp TXT file", func(sCtx provider.StepCtx) {
 			var err error
 			output, err = p.ReadFile(tempFile)
-			assert.NoError(t, err)
+			t.Assert().NoError(err)
 		})
 
 		t.WithNewStep("Compare written and read data", func(sCtx provider.StepCtx) {
-			assert.Equal(t, input, output)
+			t.Assert().Equal(input, output)
 		})
 
 		_ = os.Remove(tempFile)

@@ -10,7 +10,6 @@ import (
 
 	"github.com/ozontech/allure-go/pkg/framework/provider"
 	"github.com/ozontech/allure-go/pkg/framework/runner"
-	"github.com/stretchr/testify/assert"
 )
 
 type EvalCase struct {
@@ -48,7 +47,7 @@ func TestNaiveProcessor_EvalExpression(t *testing.T) {
 			}
 
 			t.WithNewStep("Compare input and output", func(sCtx provider.StepCtx) {
-				assert.Equal(t, c.Expected, processor.FormatFloat(output))
+				t.Assert().Equal(c.Expected, processor.FormatFloat(output))
 			})
 		})
 	}
