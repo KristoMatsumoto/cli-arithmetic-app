@@ -57,6 +57,10 @@ func SplitIntoTokens(input string) []TokenPart {
 			isExpr = true
 
 		case ch == '(':
+			if len(spacebuf) > 0 {
+				subbuf = append(subbuf, spacebuf...)
+				spacebuf = nil
+			}
 			subbuf = append(subbuf, ch)
 
 		case ch == ')':

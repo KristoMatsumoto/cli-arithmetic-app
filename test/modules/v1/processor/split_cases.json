@@ -168,5 +168,30 @@
             { "Type": 0, "Value": "Result: " },
             { "Type": 1, "Value": "((2+3)*5)" }
         ]
+    },
+    {
+        "name": "extra parentheses",
+        "input": "3 + 7 + ((3))",
+        "expected": [
+            { "Type": 1, "Value": "3 + 7 + ((3))" }
+        ]
+    },
+    {
+        "name": "extra parentheses with text",
+        "input": "Some text and expression 3 + 7 + ((3)) is very cool.",
+        "expected": [
+            { "Type": 0, "Value": "Some text and expression " },
+            { "Type": 1, "Value": "3 + 7 + ((3))" },
+            { "Type": 0, "Value": " is very cool." }
+        ]
+    },
+    {
+        "name": "extra parentheses in text",
+        "input": "Some expression 3 + 7 + ((3)) (and text (is very cool)).",
+        "expected": [
+            { "Type": 0, "Value": "Some expression " },
+            { "Type": 1, "Value": "3 + 7 + ((3))" },
+            { "Type": 0, "Value": " (and text (is very cool))." }
+        ]
     }
 ]

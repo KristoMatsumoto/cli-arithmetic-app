@@ -55,31 +55,19 @@
     },
     {
         "name": "Division by zero",
-        "input": [ "10/0 is bad" ],
-        "expected": [ "NaN is bad" ]
+        "input": [ 
+            "10/0 is bad",
+            "This is broken: 5 / 0" 
+        ],
+        "expected": [ 
+            "NaN is bad",
+            "This is broken: NaN"
+        ]
     },
     {
         "name": "Negative numbers and subtraction",
         "input": [ "Check -5-3 result" ],
         "expected": [ "Check -8 result" ]
-    },
-    {
-        "name": "Basic expressions embedded",
-        "input": [
-            "Line with 3+4 result",
-            "Multiply: 5 * 2 and divide 10 / 5",
-            "No expressions here"
-        ],
-        "expected": [
-            "Line with 7 result",
-            "Multiply: 10 and divide 2",
-            "No expressions here"
-        ]
-    },
-    {
-        "name": "Division by zero",
-        "input": [ "This is broken: 5 / 0" ],
-        "expected": [ "This is broken: NaN" ]
     },
     {
         "name": "Basic expressions embedded",
