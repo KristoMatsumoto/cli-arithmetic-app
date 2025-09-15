@@ -16,8 +16,8 @@ type ParseCase struct {
 	Expected []map[string]string `json:"expected"`
 }
 
-func TestLibProcessor_ParseExpression(t *testing.T) {
-	data := cases.LoadCases(t, "./expression_parser_cases.json")
+func TestLibProcessor_SplitIntoTokens(t *testing.T) {
+	data := cases.LoadCases(t, "../split_cases.json")
 	var cases []ParseCase
 	if err := json.Unmarshal(data, &cases); err != nil {
 		t.Fatalf("Failed to unmarshal: %v", err)

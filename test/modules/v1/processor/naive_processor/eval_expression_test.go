@@ -1,8 +1,8 @@
-package regex_processor_test
+package naive_processor_test
 
 import (
 	"cli-arithmetic-app/modules/v1/processor"
-	"cli-arithmetic-app/modules/v1/processor/regex_processor"
+	"cli-arithmetic-app/modules/v1/processor/naive_processor"
 	"cli-arithmetic-app/utils/cases"
 	"encoding/json"
 	"strconv"
@@ -16,11 +16,10 @@ type EvalCase struct {
 	Name     string `json:"name"`
 	Input    string `json:"input"`
 	Expected string `json:"expected"`
-	Error    bool   `json:"error"`
 }
 
-func TestRegexProcessor_EvalExpression(t *testing.T) {
-	data := cases.LoadCases(t, "../evalexpression_cases.json")
+func TestNaiveProcessor_EvalExpression(t *testing.T) {
+	data := cases.LoadCases(t, "../eval_expression_cases.json")
 	var cases []EvalCase
 	if err := json.Unmarshal(data, &cases); err != nil {
 		t.Fatalf("Failed to unmarshal: %v", err)
@@ -28,7 +27,7 @@ func TestRegexProcessor_EvalExpression(t *testing.T) {
 
 	for _, c := range cases {
 		runner.Run(t, c.Name, func(t provider.T) {
-			output, err := regex_processor.EvalExpression(c.Input)
+			output, err := naive_processor.EvalExpression(c.Input)
 
 			if c.Expected == "NaN" {
 				t.Assert().Error(err, "expected an error for %q", c.Input)

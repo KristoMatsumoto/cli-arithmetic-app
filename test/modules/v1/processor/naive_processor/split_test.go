@@ -17,7 +17,7 @@ type SplitCase struct {
 }
 
 func TestNaiveProcessor_SplitIntoTokens(t *testing.T) {
-	data := cases.LoadCases(t, "../split_cases.json")
+	data := cases.LoadCases(t, "./split_cases.json")
 	var cases []SplitCase
 	if err := json.Unmarshal(data, &cases); err != nil {
 		t.Fatalf("Failed to unmarshal: %v", err)

@@ -171,5 +171,55 @@
         "name": "Float operations",
         "input": ["0.5 + 1.25", "2.5*2"],
         "expected": ["1.75", "5"]
+    },
+    {
+        "name": "Power basic",
+        "input": [
+            "2^3",
+            "  4 ^ 2  ",
+            "5 ^ +2"
+        ],
+        "expected": [
+            "8",
+            "  16  ",
+            "25"
+        ]
+    },
+    {
+        "name": "Power right associative",
+        "input": [
+            "2^3^2",
+            "2^(3^2)"
+        ],
+        "expected": [
+            "512",
+            "512"
+        ]
+    },
+    {
+        "name": "Negative and unary powers",
+        "input": [
+            "(-2)^3",
+            "-2^3",
+            "2 ^ -3",
+            "2 ^ --3"
+        ],
+        "expected": [
+            "-8",
+            "-8",
+            "0.12",
+            "8"
+        ]
+    },
+    {
+        "name": "Powers with parentheses and text",
+        "input": [
+            "Result: (2^3)^2",
+            "Check: ((1+1)^(1+2))"
+        ],
+        "expected": [
+            "Result: 64",
+            "Check: 8"
+        ]
     }
 ]

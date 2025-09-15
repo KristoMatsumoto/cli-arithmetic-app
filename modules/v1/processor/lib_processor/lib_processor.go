@@ -1,7 +1,7 @@
 package lib_processor
 
 // To generate parser using pigeon run command:
-//go:generate pigeon -o expression_parser.go expression.peg
+//go:generate pigeon -o split_token.go expression.peg
 
 import (
 	"cli-arithmetic-app/modules/v1/processor"

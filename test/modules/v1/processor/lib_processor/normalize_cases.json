@@ -26,6 +26,15 @@
     { "name": "Mixed signs minus plus double minus plus",               "input": "-+--+5",              "expected": "-5" },
     { "name": "No change simple addition",                              "input": "2+3",                 "expected": "2+3" },
     { "name": "No change expression with parentheses",                  "input": "(5+4)*2",             "expected": "(5+4)*2" },
+    { "name": "Number to the power",                                    "input": "2^3",                 "expected": "pow(2,3)" },
+    { "name": "Number to the power of power",                           "input": "2^3^4",               "expected": "pow(2,pow(3,4))" },
+    { "name": "Number to the power to the power",                       "input": "(2^3)^4",             "expected": "pow((pow(2,3)),4)" },
+    { "name": "Number to the power of smth",                            "input": "2^(3--4+5)",          "expected": "pow(2,(3+4+5))" },
+    { "name": "Smth to the power of smth",                              "input": "((3+7)*2)^(3--4+5)",  "expected": "pow(((3+7)*2),(3+4+5))" },
+    { "name": "Negative number to the power",                           "input": "(-2)^3",              "expected": "pow((-2),3)" },
+    { "name": "Negative of number to the power ",                       "input": "-2^3",                "expected": "-pow(2,3)" },
+    { "name": "Number to the negative power",                           "input": "2 ^ -+ -- 3",         "expected": "pow(2,-3)" },
+    { "name": "Number to the negative power with minus after",          "input": "2 ^ -3-6",            "expected": "pow(2,-3)-6" },
 
     { "name": "Mixed all", "input": "+( 24 / -   -- ( 2 *+- - - 6))---++(7+-+-+3)", "expected": "(24/-(2*-6))-(7+3)" }
 ]

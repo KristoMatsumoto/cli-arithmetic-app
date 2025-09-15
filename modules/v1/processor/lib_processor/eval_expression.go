@@ -6,10 +6,18 @@ import (
 	"github.com/Knetic/govaluate"
 )
 
+var functions = map[string]govaluate.ExpressionFunction{
+	"pow": func(args ...interface{}) (interface{}, error) {
+		base := args[0].(float64)
+		exp := args[1].(float64)
+		return math.Pow(base, exp), nil
+	},
+}
+
 func EvalExpression(expr string) (float64, error) {
 	expr = Normalize(expr)
 
-	e, err := govaluate.NewEvaluableExpression(expr)
+	e, err := govaluate.NewEvaluableExpressionWithFunctions(expr, functions)
 	if err != nil {
 		return math.NaN(), err
 	}

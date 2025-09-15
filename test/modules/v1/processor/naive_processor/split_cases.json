@@ -26,7 +26,9 @@
         "name": "number without operation (not an expression)",
         "input": "hello, (4) not a expression",
         "expected": [
-            { "Type": "text", "Value": "hello, (4) not a expression" }
+            { "Type": "text", "Value": "hello, " },
+            { "Type": "text", "Value": "(4)" },
+            { "Type": "text", "Value": " not a expression" }
         ]
     },
     {
@@ -35,7 +37,8 @@
         "expected": [
             { "Type": "text", "Value": "expression" },
             { "Type": "expr", "Value": "4+6" },
-            { "Type": "text", "Value": "is a 10" }
+            { "Type": "text", "Value": "is a " },
+            { "Type": "text", "Value": "10" }
         ]
     },
     {
@@ -85,7 +88,8 @@
         "expected": [
             { "Type": "text", "Value": "some text " },
             { "Type": "expr", "Value": "10 *9" },
-            { "Type": "text", "Value": " = 90" }
+            { "Type": "text", "Value": " = " },
+            { "Type": "text", "Value": "90" }
         ]
     },
     {

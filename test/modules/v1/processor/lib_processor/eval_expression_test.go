@@ -19,7 +19,7 @@ type EvalCase struct {
 }
 
 func TestLibProcessor_EvalExpression(t *testing.T) {
-	data := cases.LoadCases(t, "./evalexpression_cases.json")
+	data := cases.LoadCases(t, "./eval_expression_cases.json")
 	var cases []EvalCase
 	if err := json.Unmarshal(data, &cases); err != nil {
 		t.Fatalf("Failed to unmarshal: %v", err)

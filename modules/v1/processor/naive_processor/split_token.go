@@ -4,12 +4,10 @@ import (
 	"unicode"
 )
 
-type PartType int
+type PartType string
 
-const (
-	TextPart PartType = iota
-	ExprPart
-)
+const TextPart PartType = "text"
+const ExprPart PartType = "expr"
 
 type TokenPart struct {
 	Type  PartType
