@@ -1,0 +1,175 @@
+[
+    {
+        "name": "Single addition",
+        "input": [ 
+            "1+1", 
+            "10+7", 
+            "333+777" 
+        ],
+        "expected": [ 
+            "2",
+            "17",
+            "1110"
+        ]
+    },
+    {
+        "name": "Single addition with negative numbers",
+        "input": [ 
+            "-5+10", 
+            "10+-7", 
+            "-20+-40" 
+        ],
+        "expected": [ 
+            "5",
+            "3",
+            "-60"
+        ]
+    },
+    {
+        "name": "Single operations with space",
+        "input": [ 
+            "1 + 1", 
+            "33 - 12", 
+            "5 / 1" 
+        ],
+        "expected": [ 
+            "2",
+            "21",
+            "5"
+        ]
+    },
+    {
+        "name": "Text with addition",
+        "input": [ "Value is 2+3 now" ],
+        "expected": [ "Value is 5 now" ]
+    },
+    {
+        "name": "Multiple expressions",
+        "input": [ "Compute 1+2 and 3*4" ],
+        "expected": [ "Compute 3 and 12" ]
+    },
+    {
+        "name": "Invalid operation",
+        "input": [ "This is not math" ],
+        "expected": [ "This is not math" ]
+    },
+    {
+        "name": "Division by zero",
+        "input": [ 
+            "10/0 is bad",
+            "This is broken: 5 / 0" 
+        ],
+        "expected": [ 
+            "NaN is bad",
+            "This is broken: NaN"
+        ]
+    },
+    {
+        "name": "Negative numbers and subtraction",
+        "input": [ "Check -5-3 result" ],
+        "expected": [ "Check -8 result" ]
+    },
+    {
+        "name": "Basic expressions embedded",
+        "input": [
+            "Line with 3+4 result",
+            "Multiply: 5 * 2 and divide 10 / 5",
+            "No expressions here"
+        ],
+        "expected": [
+            "Line with 7 result",
+            "Multiply: 10 and divide 2",
+            "No expressions here"
+        ]
+    },
+    {
+        "name": "Division by zero in text",
+        "input": ["This is broken: 5 / 0"],
+        "expected": ["This is broken: NaN"]
+    },
+    {
+        "name": "Multiple in one line",
+        "input": ["1+2 then 3*4 then 10-5"],
+        "expected": ["3 then 12 then 5"]
+    },
+    {
+        "name": "Expressions without spaces",
+        "input": [
+            "(6+5)*3-4=(6 + 5)*3-4",
+            "Rule35 - 1"
+        ],
+        "expected": [
+            "29=29",
+            "Rule34"
+        ]
+    },
+    {
+        "name": "Unary minus",
+        "input": [
+            "---60",
+            "Result is -5+3 and also --2"
+        ],
+        "expected": [
+            "-60",
+            "Result is -2 and also 2"
+        ]
+    },
+    {
+        "name": "Parentheses and nested expressions",
+        "input": [
+            "(2+3)*(4+1)", 
+            "10/(2+3)"
+        ],
+        "expected": [
+            "25", 
+            "2"
+        ]
+    },
+    {
+        "name": "Mismatched parentheses",
+        "input": [
+            "This (5+2 is not bad",
+            "No arithmetics (here)",
+            "No arithmetics( too",
+            "some text 9+(8-6)-7) text",
+            "Bad, but: 9 + (7 - 8"
+        ],
+        "expected": [
+            "This (7 is not bad",
+            "No arithmetics (here)",
+            "No arithmetics( too",
+            "some text 4) text",
+            "Bad, but: 9 + (-1"
+        ]
+    },
+    {
+        "name": "Extra parentheses",
+        "input": ["((1+2)) + ((3))"],
+        "expected": ["6"]
+    },
+    {
+        "name": "Complex nested",
+        "input": ["Final: ((1+2)*(3+4))/7"],
+        "expected": ["Final: 3"]
+    },
+    {
+        "name": "Multiple unaries",
+        "input": [
+            "-(-5)+3",
+            "-(-3)+2",
+            "--20+3",
+            "---60-1"
+        ],
+        "expected": [
+            "8",
+            "5",
+            "23",
+            "-61"
+        ]
+    },
+    {
+        "name": "Float operations",
+        "input": ["0.5 + 1.25", "2.5*2"],
+        "expected": ["1.75", "5"]
+    }
+]

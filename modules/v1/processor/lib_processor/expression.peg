@@ -1,0 +1,35 @@
+{
+package lib_processor
+}
+
+Input       <- (Expr / Text)+
+
+// --- Expressions ---
+Expr        <- Expression {
+                return map[string]string{
+                    "Type":  "expr",
+                    "Value": string(c.text),
+                }, nil
+            }
+
+Expression  <- Binary / UnaryOnly / ParenExpr
+Binary      <- Prefix (Spacings Op Spacings Prefix)+
+Prefix      <- (('+' / '-') Spacings)* Primary
+UnaryOnly   <- (('+' / '-') Spacings)+ Primary
+Primary     <- Number / ParensInner
+ParensInner <- '(' Spacings (Binary / UnaryOnly / Primary) Spacings ')'
+ParenExpr   <- '(' Spacings Expression Spacings ')'
+Op          <- AddOp / MulOp
+AddOp       <- '+' / '-'
+MulOp       <- '*' / '/' / '%' / '^'
+Spacings    <- (Spacing)*
+Spacing     <- [ \t]+
+Number      <- [0-9]+ ('.' [0-9]+)?
+
+// --- Text ---
+Text        <- (!Expr .)+ {
+                return map[string]string{
+                    "Type":  "text",
+                    "Value": string(c.text),
+                }, nil
+            }

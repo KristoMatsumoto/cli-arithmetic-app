@@ -1,0 +1,193 @@
+[
+    {
+        "name": "text with expression",
+        "input": "abc 1+2 def",
+        "expected": [
+            { "Type": "text", "Value": "abc " },
+            { "Type": "expr", "Value": "1+2" },
+            { "Type": "text", "Value": " def" }
+        ]
+    },
+    {
+        "name": "only expression",
+        "input": "3*4",
+        "expected": [
+            { "Type": "expr", "Value": "3*4" }
+        ]
+    },
+    {
+        "name": "text only",
+        "input": "hello world",
+        "expected": [
+            { "Type": "text", "Value": "hello world" }
+        ]
+    }, 
+    {
+        "name": "number without operation (not an expression)",
+        "input": "hello, (4) not a expression",
+        "expected": [
+            { "Type": "text", "Value": "hello, (4) not a expression" }
+        ]
+    },
+    {
+        "name": "expression in text without spaces",
+        "input": "expression4+6is a 10",
+        "expected": [
+            { "Type": "text", "Value": "expression" },
+            { "Type": "expr", "Value": "4+6" },
+            { "Type": "text", "Value": "is a 10" }
+        ]
+    },
+    {
+        "name": "any expressions",
+        "input": "expression first is 4+6 and second 10*(8+2)",
+        "expected": [
+            { "Type": "text", "Value": "expression first is " },
+            { "Type": "expr", "Value": "4+6" },
+            { "Type": "text", "Value": " and second " },
+            { "Type": "expr", "Value": "10*(8+2)" }
+        ]
+    },
+    {
+        "name": "expression with dot after",
+        "input": "10*(8+2).",
+        "expected": [
+            { "Type": "expr", "Value": "10*(8+2)" },
+            { "Type": "text", "Value": "." }
+        ]
+    },
+    {
+        "name": "expression with dot",
+        "input": "10.21*9",
+        "expected": [
+            { "Type": "expr", "Value": "10.21*9" }
+        ]
+    },
+    {
+        "name": "expression with dot in text",
+        "input": "some text with expression 10.21*9 and dot in it and on end of text.",
+        "expected": [
+            { "Type": "text", "Value": "some text with expression " },
+            { "Type": "expr", "Value": "10.21*9" },
+            { "Type": "text", "Value": " and dot in it and on end of text." }
+        ]
+    },
+    {
+        "name": "expression with spaces",
+        "input": "10 * 9",
+        "expected": [
+            { "Type": "expr", "Value": "10 * 9" }
+        ]
+    },
+    {
+        "name": "expression with spaces in text",
+        "input": "some text 10 *9 = 90",
+        "expected": [
+            { "Type": "text", "Value": "some text " },
+            { "Type": "expr", "Value": "10 *9" },
+            { "Type": "text", "Value": " = 90" }
+        ]
+    },
+    {
+        "name": "more then 1 dot in numbers (ip)",
+        "input": "10.225.225.10",
+        "expected": [
+            { "Type": "text", "Value": "10.225.225.10" }
+        ]
+    },
+    {
+        "name": "text with dot",
+        "input": "Some text with end.",
+        "expected": [
+            { "Type": "text", "Value": "Some text with end." }
+        ]
+    },
+    {
+        "name": "text with parentheses",
+        "input": "Some text (and parentheses) without any sense",
+        "expected": [
+            { "Type": "text", "Value": "Some text (and parentheses) without any sense" }
+        ]
+    },
+    {
+        "name": "multiple unaries",
+        "input": "---60-1",
+        "expected": [
+            { "Type": "expr", "Value": "---60-1" }
+        ]
+    },
+    {
+        "name": "expression starting with parentheses",
+        "input": "(5+3)*2",
+        "expected": [
+            { "Type": "expr", "Value": "(5+3)*2" }
+        ]
+    },
+    {
+        "name": "text with parentheses inside",
+        "input": "Calculate (something) now",
+        "expected": [
+            { "Type": "text", "Value": "Calculate (something) now" }
+        ]
+    },
+    {
+        "name": "text with expression in parentheses",
+        "input": "Value is (4+5) today",
+        "expected": [
+            { "Type": "text", "Value": "Value is " },
+            { "Type": "expr", "Value": "(4+5)" },
+            { "Type": "text", "Value": " today" }
+        ]
+    },
+    {
+        "name": "text with expression in parentheses with spaces",
+        "input": "Value is ( 4 + 5 ) today",
+        "expected": [
+            { "Type": "text", "Value": "Value is " },
+            { "Type": "expr", "Value": "( 4 + 5 )" },
+            { "Type": "text", "Value": " today" }
+        ]
+    },
+    {
+        "name": "text with expression in parentheses with any spaces",
+        "input": "Value is (     4 + 5 ) today",
+        "expected": [
+            { "Type": "text", "Value": "Value is " },
+            { "Type": "expr", "Value": "(     4 + 5 )" },
+            { "Type": "text", "Value": " today" }
+        ]
+    },
+    {
+        "name": "nested parentheses expression",
+        "input": "Result: ((2+3)*5)",
+        "expected": [
+            { "Type": "text", "Value": "Result: " },
+            { "Type": "expr", "Value": "((2+3)*5)" }
+        ]
+    },
+    {
+        "name": "extra parentheses",
+        "input": "3 + 7 + ((3))",
+        "expected": [
+            { "Type": "expr", "Value": "3 + 7 + ((3))" }
+        ]
+    },
+    {
+        "name": "extra parentheses with text",
+        "input": "Some text and expression 3 + 7 + ((3)) is very cool.",
+        "expected": [
+            { "Type": "text", "Value": "Some text and expression " },
+            { "Type": "expr", "Value": "3 + 7 + ((3))" },
+            { "Type": "text", "Value": " is very cool." }
+        ]
+    },
+    {
+        "name": "extra parentheses in text",
+        "input": "Some expression 3 + 7 + ((3)) (and text (is very cool)).",
+        "expected": [
+            { "Type": "text", "Value": "Some expression " },
+            { "Type": "expr", "Value": "3 + 7 + ((3))" },
+            { "Type": "text", "Value": " (and text (is very cool))." }
+        ]
+    }
+]
