@@ -29,11 +29,6 @@ func SplitIntoTokens(input string) []TokenPart {
 	for _, loc := range exprCandidateRegex.FindAllStringIndex(input, -1) {
 		start, end := loc[0], loc[1]
 
-		// Text before candidate for expression
-		// if start > last {
-		// 	tokens = append(tokens, TokenPart{Type: TextPart, Value: input[last:start]})
-		// }
-
 		candidate := input[start:end]
 		trimmedCandidate := strings.TrimSpace(candidate)
 		if isValidExpression(trimmedCandidate) {
