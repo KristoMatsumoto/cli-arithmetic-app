@@ -2,6 +2,7 @@ package json_parser_test
 
 import (
 	"cli-arithmetic-app/modules/v1/parser"
+	"cli-arithmetic-app/utils/parsertest"
 	"os"
 	"path/filepath"
 	"testing"
@@ -10,11 +11,12 @@ import (
 	"github.com/ozontech/allure-go/pkg/framework/runner"
 )
 
+var input = []string{"4+4", "5-2", "Test"}
+
 func TestJSONParser_ReadWrite(t *testing.T) {
 	runner.Run(t, "JSON Parser: Read & Write", func(t provider.T) {
 		p := parser.NewJSONParser()
 		tempFile := filepath.Join(os.TempDir(), "json_test.json")
-		input := []string{"4+4", "5-2", "Test"}
 
 		t.WithNewStep("Write data to temp JSON file", func(sCtx provider.StepCtx) {
 			err := p.WriteFile(tempFile, input)
@@ -33,5 +35,21 @@ func TestJSONParser_ReadWrite(t *testing.T) {
 		})
 
 		_ = os.Remove(tempFile)
+	})
+}
+
+func TestJSONParser_Roundtrip(t *testing.T) {
+	runner.Run(t, "Roundtrip JSON Parser", func(t provider.T) {
+		p := parser.NewJSONParser()
+		wd, _ := os.Getwd()
+		inputPath := filepath.Join(wd, "sample.json")
+		parsertest.Roundtrip(t, p, inputPath)
+	})
+}
+
+func TestJSONParser_RoundtripBytes(t *testing.T) {
+	runner.Run(t, "Roundtrip bytes JSON Parser", func(t provider.T) {
+		p := parser.NewJSONParser()
+		parsertest.RoundtripBytes(t, p, input)
 	})
 }

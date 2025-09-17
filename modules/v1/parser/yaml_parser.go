@@ -1,7 +1,6 @@
 package parser
 
 import (
-	"fmt"
 	"os"
 
 	"gopkg.in/yaml.v3"
@@ -13,25 +12,31 @@ func NewYAMLParser() *YAMLParser {
 	return &YAMLParser{}
 }
 
-func (y *YAMLParser) ReadFile(path string) ([]string, error) {
-	data, err := os.ReadFile(path)
+func (parser *YAMLParser) ReadFile(path string) ([]string, error) {
+	file, err := os.ReadFile(path)
 	if err != nil {
 		return nil, err
 	}
 
-	var lines []string
-	if err := yaml.Unmarshal(data, &lines); err != nil {
-		return nil, fmt.Errorf("unmarshal error: %w", err)
-	}
-
-	return lines, nil
+	return parser.ParseBytes(file)
 }
 
-func (y *YAMLParser) WriteFile(path string, data []string) error {
-	yamlData, err := yaml.Marshal(data)
+func (parser *YAMLParser) ParseBytes(raw []byte) ([]string, error) {
+	var data []string
+	if err := yaml.Unmarshal(raw, &data); err != nil {
+		return nil, err
+	}
+	return data, nil
+}
+
+func (parser *YAMLParser) WriteFile(path string, data []string) error {
+	raw, err := parser.SerializeBytes(data)
 	if err != nil {
 		return err
 	}
+	return os.WriteFile(path, raw, 0644)
+}
 
-	return os.WriteFile(path, yamlData, 0644)
+func (parser *YAMLParser) SerializeBytes(data []string) ([]byte, error) {
+	return yaml.Marshal(data)
 }

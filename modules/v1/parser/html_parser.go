@@ -14,14 +14,17 @@ func NewHTMLParser() *HTMLParser {
 	return &HTMLParser{}
 }
 
-func (h *HTMLParser) ReadFile(path string) ([]string, error) {
-	file, err := os.Open(path)
+func (parser *HTMLParser) ReadFile(path string) ([]string, error) {
+	file, err := os.ReadFile(path)
 	if err != nil {
 		return nil, err
 	}
-	defer file.Close()
 
-	doc, err := html.Parse(file)
+	return parser.ParseBytes(file)
+}
+
+func (parser *HTMLParser) ParseBytes(raw []byte) ([]string, error) {
+	doc, err := html.Parse(bytes.NewReader(raw))
 	if err != nil {
 		return nil, err
 	}
@@ -49,13 +52,20 @@ func (h *HTMLParser) ReadFile(path string) ([]string, error) {
 	return lines, nil
 }
 
-func (h *HTMLParser) WriteFile(path string, data []string) error {
+func (parser *HTMLParser) WriteFile(path string, data []string) error {
+	raw, err := parser.SerializeBytes(data)
+	if err != nil {
+		return err
+	}
+	return os.WriteFile(path, raw, 0644)
+}
+
+func (parser *HTMLParser) SerializeBytes(data []string) ([]byte, error) {
 	var buf bytes.Buffer
 	buf.WriteString("<html><body>\n")
 	for _, line := range data {
 		buf.WriteString("<p>" + line + "</p>\n")
 	}
 	buf.WriteString("</body></html>")
-
-	return os.WriteFile(path, buf.Bytes(), 0644)
+	return buf.Bytes(), nil
 }

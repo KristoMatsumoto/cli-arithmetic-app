@@ -2,6 +2,7 @@ package html_parser_test
 
 import (
 	"cli-arithmetic-app/modules/v1/parser"
+	"cli-arithmetic-app/utils/parsertest"
 	"os"
 	"path/filepath"
 	"testing"
@@ -10,11 +11,12 @@ import (
 	"github.com/ozontech/allure-go/pkg/framework/runner"
 )
 
+var input = []string{"3+3", "<b>bold</b>", "simple"}
+
 func TestHTMLParser_ReadWrite(t *testing.T) {
 	runner.Run(t, "HTML Parser: Read & Write", func(t provider.T) {
 		p := parser.NewHTMLParser()
 		tempFile := filepath.Join(os.TempDir(), "html_test.html")
-		input := []string{"3+3", "<b>bold</b>", "simple"}
 
 		t.WithNewStep("Write data to temp HTML file", func(sCtx provider.StepCtx) {
 			err := p.WriteFile(tempFile, input)
@@ -33,5 +35,21 @@ func TestHTMLParser_ReadWrite(t *testing.T) {
 		})
 
 		_ = os.Remove(tempFile)
+	})
+}
+
+func TestHTMLParser_Roundtrip(t *testing.T) {
+	runner.Run(t, "Roundtrip HTML Parser", func(t provider.T) {
+		p := parser.NewHTMLParser()
+		wd, _ := os.Getwd()
+		inputPath := filepath.Join(wd, "sample.html")
+		parsertest.Roundtrip(t, p, inputPath)
+	})
+}
+
+func TestHTMLParser_RoundtripBytes(t *testing.T) {
+	runner.Run(t, "Roundtrip bytes HTML Parser", func(t provider.T) {
+		p := parser.NewHTMLParser()
+		parsertest.RoundtripBytes(t, p, input)
 	})
 }

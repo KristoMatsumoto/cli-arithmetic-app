@@ -1,8 +1,9 @@
 package parser
 
 import (
-	"bufio"
+	"bytes"
 	"os"
+	"strings"
 )
 
 type TextParser struct{}
@@ -11,37 +12,36 @@ func NewTextParser() *TextParser {
 	return &TextParser{}
 }
 
-func (t *TextParser) ReadFile(path string) ([]string, error) {
-	file, err := os.Open(path)
+func (parser *TextParser) ReadFile(path string) ([]string, error) {
+	file, err := os.ReadFile(path)
 	if err != nil {
 		return nil, err
 	}
-	defer file.Close()
 
-	var lines []string
-	scanner := bufio.NewScanner(file)
-	for scanner.Scan() {
-		lines = append(lines, scanner.Text())
-	}
+	return parser.ParseBytes(file)
+}
 
-	if err := scanner.Err(); err != nil {
-		return nil, err
-	}
+func (parser *TextParser) ParseBytes(raw []byte) ([]string, error) {
+	content := string(raw)
+	lines := strings.Split(strings.ReplaceAll(content, "\r\n", "\n"), "\n")
 	return lines, nil
 }
 
-func (t *TextParser) WriteFile(path string, data []string) error {
-	file, err := os.Create(path)
+func (parser *TextParser) WriteFile(path string, data []string) error {
+	raw, err := parser.SerializeBytes(data)
 	if err != nil {
 		return err
 	}
-	defer file.Close()
+	return os.WriteFile(path, raw, 0644)
+}
 
-	for _, line := range data {
-		_, err := file.WriteString(line + "\n")
-		if err != nil {
-			return err
+func (parser *TextParser) SerializeBytes(data []string) ([]byte, error) {
+	var buf bytes.Buffer
+	for i, line := range data {
+		buf.WriteString(line)
+		if i < len(data)-1 {
+			buf.WriteString("\n")
 		}
 	}
-	return nil
+	return buf.Bytes(), nil
 }

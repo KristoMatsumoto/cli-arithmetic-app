@@ -15,32 +15,32 @@ type xmlWrapper struct {
 	Lines []string `xml:"line"`
 }
 
-func (x *XMLParser) ReadFile(path string) ([]string, error) {
+func (parser *XMLParser) ReadFile(path string) ([]string, error) {
 	file, err := os.ReadFile(path)
 	if err != nil {
 		return nil, err
 	}
 
+	return parser.ParseBytes(file)
+}
+
+func (parser *XMLParser) ParseBytes(raw []byte) ([]string, error) {
 	var wrapper xmlWrapper
-	if err := xml.Unmarshal(file, &wrapper); err != nil {
+	if err := xml.Unmarshal(raw, &wrapper); err != nil {
 		return nil, err
 	}
 	return wrapper.Lines, nil
 }
 
-func (x *XMLParser) WriteFile(path string, data []string) error {
-	file, err := os.Create(path)
+func (parser *XMLParser) WriteFile(path string, data []string) error {
+	raw, err := parser.SerializeBytes(data)
 	if err != nil {
 		return err
 	}
-	defer file.Close()
+	return os.WriteFile(path, raw, 0644)
+}
 
+func (parser *XMLParser) SerializeBytes(data []string) ([]byte, error) {
 	wrapper := xmlWrapper{Lines: data}
-	output, err := xml.MarshalIndent(wrapper, "", "  ")
-	if err != nil {
-		return err
-	}
-
-	_, err = file.Write(output)
-	return err
+	return xml.MarshalIndent(wrapper, "", "  ")
 }
