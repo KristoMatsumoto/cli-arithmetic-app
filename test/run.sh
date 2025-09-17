@@ -4,6 +4,8 @@ set -e
 CLEAN=false
 REPORT=false
 SERVER=false
+TIMEOUT_FLAG=false
+TIMEOUT_VALUE=""
 while [[ $# -gt 0 ]]; do
     case "$1" in
         -c|--clean)
@@ -18,9 +20,19 @@ while [[ $# -gt 0 ]]; do
             SERVER=true
             shift
             ;;
+        -t|--timeout)
+            TIMEOUT_FLAG=true
+            if [[ -n "$2" && ! "$2" =~ ^- ]]; then
+                TIMEOUT_VALUE="$2"
+                shift 2
+            else
+                TIMEOUT_VALUE="30s"
+                shift
+            fi
+            ;;
         *)
             echo "Unknown option: $1"
-            echo "Usage: $0 [-c|--clean] [-s|--server]"
+            echo "Usage: $0 [-c|--clean] [-r|--report] [-s|--server] [-t|--timeout [value]]"
             exit 1
         ;;
     esac
@@ -36,8 +48,16 @@ if [ "$CLEAN" = true ]; then
     echo "Old results have been cleaned."
 fi
 
+# --timeout [x] -t [x]
+# Add timeout for test running (default: x = 30s)
+GO_TEST_CMD="go test -v"
+if [ "$TIMEOUT_FLAG" = true ]; then
+    GO_TEST_CMD+=" -timeout $TIMEOUT_VALUE"
+fi
+GO_TEST_CMD+=" ./..."
+
 # Tests running
-go test -v ./...
+eval $GO_TEST_CMD
 echo "Allure results collected in $ALLURE_OUTPUT_PATH/$ALLURE_OUTPUT_FOLDER."
 
 # --report -r

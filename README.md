@@ -44,11 +44,12 @@ To run test and create html-report page use:
 Options:
 
 ```
-[ Windows  |    Bash   |    Bash ]
-        option                          description
--clean      --clean         -c      clean old test information
--report     --report        -r      create allure html-report
--server     --server        -s      start allure server
+        option                            description
+[ Windows    |   Bash       |  Bash   ]
+-clean        --clean         -c        clean old test information
+-report       --report        -r        create allure html-report
+-server       --server        -s        start allure server
+-timeout [x]  --timeout [x]   -t [x]    add timeout option for *go test*
 
 ```
 

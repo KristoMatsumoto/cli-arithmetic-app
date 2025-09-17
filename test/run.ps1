@@ -1,7 +1,8 @@
 param (
     [switch]$clean,
     [switch]$report,
-    [switch]$server    
+    [switch]$server,
+    [Parameter(Mandatory=$false)] [string]$timeout
 )
 
 $env:ALLURE_OUTPUT_PATH = (Get-Location).Path
@@ -14,8 +15,20 @@ if ($clean) {
     Write-Host "Old results have been cleaned."
 }
 
+# -timeout [x]
+# Add timeout for test running (default: x = 30s)
+$goTestCommand = "go test -v"
+if ($PSBoundParameters.ContainsKey("timeout")) {
+    if ([string]::IsNullOrEmpty($timeout)) {
+        $goTestCommand += " -timeout 30s"
+    } else {
+        $goTestCommand += " -timeout $timeout"
+    }
+}
+$goTestCommand += " ./..."
+
 # Tests running
-go test -v ./... 
+Invoke-Expression $goTestCommand 
 Write-Host "Allure results collected in $env:ALLURE_OUTPUT_PATH\$env:ALLURE_OUTPUT_FOLDER."
 
 # -report
