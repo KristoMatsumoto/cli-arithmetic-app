@@ -1,11 +1,14 @@
 package app
 
 import (
+	"cli-arithmetic-app/modules/v1/archivator"
+	"cli-arithmetic-app/modules/v1/encryptor"
 	"cli-arithmetic-app/modules/v1/parser"
 	"cli-arithmetic-app/modules/v1/processor"
 	"cli-arithmetic-app/modules/v1/processor/lib_processor"
 	"cli-arithmetic-app/modules/v1/processor/naive_processor"
 	"cli-arithmetic-app/modules/v1/processor/regex_processor"
+	"cli-arithmetic-app/modules/v1/transformer"
 
 	"fmt"
 )
@@ -47,4 +50,34 @@ func CreateParser(format string) (parser.Parser, error) {
 		return factory(), nil
 	}
 	return nil, fmt.Errorf("unsupported parser format: %s", format)
+}
+
+// -------- Transformers (archivators + encryptors) --------
+var transformerRegistry = map[string]func() (transformer.Transformer, error){
+	"zip": func() (transformer.Transformer, error) { return archivator.NewZIPTransformer(), nil },
+
+	"aes": func() (transformer.Transformer, error) { return encryptor.NewAESTransformer() },
+}
+
+func CreateTransformer(name string) (transformer.Transformer, error) {
+	if factory, ok := transformerRegistry[name]; ok {
+		return factory()
+	}
+	return nil, fmt.Errorf("unsupported transformer: %s", name)
+}
+
+func BuildTransformChain(chain []string) ([]transformer.Transformer, error) {
+	var transformers []transformer.Transformer
+	for _, name := range chain {
+		ctor, ok := transformerRegistry[name]
+		if !ok {
+			return nil, fmt.Errorf("unknown transformer: %s", name)
+		}
+		t, err := ctor()
+		if err != nil {
+			return nil, fmt.Errorf("failed to init transformer %s: %w", name, err)
+		}
+		transformers = append(transformers, t)
+	}
+	return transformers, nil
 }

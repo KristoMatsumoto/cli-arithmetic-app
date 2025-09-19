@@ -7,6 +7,7 @@ param (
 
 $env:ALLURE_OUTPUT_PATH = (Get-Location).Path
 $env:ALLURE_OUTPUT_FOLDER = "allure-results"
+$env:SECRET_KEY = "example123456789"
 
 # -clean 
 # Clean old information

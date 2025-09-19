@@ -40,6 +40,7 @@ done
 
 export ALLURE_OUTPUT_PATH="$(pwd)"       
 export ALLURE_OUTPUT_FOLDER="allure-results"
+export SECRET_KEY="example123456789"
 
 # --clean -c
 # Clean old information
