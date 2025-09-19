@@ -1,4 +1,4 @@
-package parsertest
+package roundtrip
 
 import (
 	"cli-arithmetic-app/modules/v1/parser"

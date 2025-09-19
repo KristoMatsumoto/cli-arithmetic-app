@@ -2,7 +2,7 @@ package json_parser_test
 
 import (
 	"cli-arithmetic-app/modules/v1/parser"
-	"cli-arithmetic-app/utils/parsertest"
+	"cli-arithmetic-app/utils/roundtrip"
 	"os"
 	"path/filepath"
 	"testing"
@@ -43,13 +43,13 @@ func TestJSONParser_Roundtrip(t *testing.T) {
 		p := parser.NewJSONParser()
 		wd, _ := os.Getwd()
 		inputPath := filepath.Join(wd, "sample.json")
-		parsertest.Roundtrip(t, p, inputPath)
+		roundtrip.Roundtrip(t, p, inputPath)
 	})
 }
 
 func TestJSONParser_RoundtripBytes(t *testing.T) {
 	runner.Run(t, "Roundtrip bytes JSON Parser", func(t provider.T) {
 		p := parser.NewJSONParser()
-		parsertest.RoundtripBytes(t, p, input)
+		roundtrip.RoundtripBytes(t, p, input)
 	})
 }

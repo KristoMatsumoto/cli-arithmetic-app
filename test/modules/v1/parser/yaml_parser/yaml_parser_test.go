@@ -2,7 +2,7 @@ package yaml_parser_test
 
 import (
 	"cli-arithmetic-app/modules/v1/parser"
-	"cli-arithmetic-app/utils/parsertest"
+	"cli-arithmetic-app/utils/roundtrip"
 	"os"
 	"path/filepath"
 	"testing"
@@ -43,13 +43,13 @@ func TestYAMLParser_Roundtrip(t *testing.T) {
 		p := parser.NewYAMLParser()
 		wd, _ := os.Getwd()
 		inputPath := filepath.Join(wd, "sample.yaml")
-		parsertest.Roundtrip(t, p, inputPath)
+		roundtrip.Roundtrip(t, p, inputPath)
 	})
 }
 
 func TestYAMLParser_RoundtripBytes(t *testing.T) {
 	runner.Run(t, "Roundtrip bytes YAML Parser", func(t provider.T) {
 		p := parser.NewYAMLParser()
-		parsertest.RoundtripBytes(t, p, input)
+		roundtrip.RoundtripBytes(t, p, input)
 	})
 }

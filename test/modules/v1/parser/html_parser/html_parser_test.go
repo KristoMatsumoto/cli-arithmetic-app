@@ -2,7 +2,7 @@ package html_parser_test
 
 import (
 	"cli-arithmetic-app/modules/v1/parser"
-	"cli-arithmetic-app/utils/parsertest"
+	"cli-arithmetic-app/utils/roundtrip"
 	"os"
 	"path/filepath"
 	"testing"
@@ -43,13 +43,13 @@ func TestHTMLParser_Roundtrip(t *testing.T) {
 		p := parser.NewHTMLParser()
 		wd, _ := os.Getwd()
 		inputPath := filepath.Join(wd, "sample.html")
-		parsertest.Roundtrip(t, p, inputPath)
+		roundtrip.Roundtrip(t, p, inputPath)
 	})
 }
 
 func TestHTMLParser_RoundtripBytes(t *testing.T) {
 	runner.Run(t, "Roundtrip bytes HTML Parser", func(t provider.T) {
 		p := parser.NewHTMLParser()
-		parsertest.RoundtripBytes(t, p, input)
+		roundtrip.RoundtripBytes(t, p, input)
 	})
 }

@@ -2,7 +2,7 @@ package text_parser_test
 
 import (
 	"cli-arithmetic-app/modules/v1/parser"
-	"cli-arithmetic-app/utils/parsertest"
+	"cli-arithmetic-app/utils/roundtrip"
 	"os"
 	"path/filepath"
 	"testing"
@@ -43,13 +43,13 @@ func TestTXTParser_Roundtrip(t *testing.T) {
 		p := parser.NewTextParser()
 		wd, _ := os.Getwd()
 		inputPath := filepath.Join(wd, "sample.txt")
-		parsertest.Roundtrip(t, p, inputPath)
+		roundtrip.Roundtrip(t, p, inputPath)
 	})
 }
 
 func TestTXTParser_RoundtripBytes(t *testing.T) {
 	runner.Run(t, "Roundtrip bytes Text Parser", func(t provider.T) {
 		p := parser.NewTextParser()
-		parsertest.RoundtripBytes(t, p, input)
+		roundtrip.RoundtripBytes(t, p, input)
 	})
 }
