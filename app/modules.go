@@ -1,14 +1,14 @@
 package app
 
 import (
-	"cli-arithmetic-app/modules/v1/archivator"
-	"cli-arithmetic-app/modules/v1/encryptor"
-	"cli-arithmetic-app/modules/v1/parser"
-	"cli-arithmetic-app/modules/v1/processor"
-	"cli-arithmetic-app/modules/v1/processor/lib_processor"
-	"cli-arithmetic-app/modules/v1/processor/naive_processor"
-	"cli-arithmetic-app/modules/v1/processor/regex_processor"
-	"cli-arithmetic-app/modules/v1/transformer"
+	"cli-arithmetic-app/modules/archivator"
+	"cli-arithmetic-app/modules/encryptor"
+	"cli-arithmetic-app/modules/parser"
+	"cli-arithmetic-app/modules/processor"
+	"cli-arithmetic-app/modules/processor/lib_processor"
+	"cli-arithmetic-app/modules/processor/naive_processor"
+	"cli-arithmetic-app/modules/processor/regex_processor"
+	"cli-arithmetic-app/modules/transformer"
 
 	"fmt"
 )
@@ -54,9 +54,22 @@ func CreateParser(format string) (parser.Parser, error) {
 
 // -------- Transformers (archivators + encryptors) --------
 var transformerRegistry = map[string]func() (transformer.Transformer, error){
-	"zip": func() (transformer.Transformer, error) { return archivator.NewZIPTransformer(), nil },
+	"brotli": func() (transformer.Transformer, error) { return archivator.NewBrotliTransformer(), nil },
+	"gzip":   func() (transformer.Transformer, error) { return archivator.NewGZIPTransformer(), nil },
+	"lz4":    func() (transformer.Transformer, error) { return archivator.NewLZ4Transformer(), nil },
+	"tar":    func() (transformer.Transformer, error) { return archivator.NewTARTransformer(), nil },
+	"zip":    func() (transformer.Transformer, error) { return archivator.NewZIPTransformer(), nil },
+	"zipx":   func() (transformer.Transformer, error) { return archivator.NewZIPXTransformer(), nil },
+	"zstd":   func() (transformer.Transformer, error) { return archivator.NewZSTDTransformer(), nil },
 
-	"aes": func() (transformer.Transformer, error) { return encryptor.NewAESTransformer() },
+	"3des":              func() (transformer.Transformer, error) { return encryptor.NewTripleDESTransformer() },
+	"aes":               func() (transformer.Transformer, error) { return encryptor.NewAESTransformer() },
+	"aes-gcm":           func() (transformer.Transformer, error) { return encryptor.NewAESGCMTransformer() },
+	"blowfish":          func() (transformer.Transformer, error) { return encryptor.NewBlowfishTransformer() },
+	"chacha20":          func() (transformer.Transformer, error) { return encryptor.NewChaCha20Transformer() },
+	"chacha20-poly1305": func() (transformer.Transformer, error) { return encryptor.NewChaCha20Poly1305Transformer() },
+	"gost28147":         func() (transformer.Transformer, error) { return encryptor.NewGOST28147Transformer() },
+	"rc4":               func() (transformer.Transformer, error) { return encryptor.NewRC4Transformer() },
 }
 
 func CreateTransformer(name string) (transformer.Transformer, error) {
