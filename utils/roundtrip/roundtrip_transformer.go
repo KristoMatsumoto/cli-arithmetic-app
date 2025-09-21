@@ -1,7 +1,7 @@
 package roundtrip
 
 import (
-	"cli-arithmetic-app/modules/v1/transformer"
+	"cli-arithmetic-app/modules/transformer"
 
 	"github.com/ozontech/allure-go/pkg/framework/provider"
 )

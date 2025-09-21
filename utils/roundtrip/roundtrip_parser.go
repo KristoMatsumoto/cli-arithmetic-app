@@ -1,7 +1,7 @@
 package roundtrip
 
 import (
-	"cli-arithmetic-app/modules/v1/parser"
+	"cli-arithmetic-app/modules/parser"
 	"os"
 	"path/filepath"
 
