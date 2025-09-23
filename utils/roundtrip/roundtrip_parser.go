@@ -3,13 +3,15 @@ package roundtrip
 import (
 	"cli-arithmetic-app/modules/parser"
 	"os"
-	"path/filepath"
 
 	"github.com/ozontech/allure-go/pkg/framework/provider"
 )
 
 func Roundtrip(t provider.T, p parser.Parser, inputPath string) {
-	tempFile := filepath.Join(os.TempDir(), "roundtrip_output.tmp")
+	tempFile, err := os.CreateTemp("", "roundtrip_*.tmp")
+	t.Assert().NoError(err)
+	defer os.Remove(tempFile.Name())
+	defer tempFile.Close()
 
 	var original []string
 	t.WithNewStep("Read original file", func(sCtx provider.StepCtx) {
@@ -19,22 +21,20 @@ func Roundtrip(t provider.T, p parser.Parser, inputPath string) {
 	})
 
 	t.WithNewStep("Write content to temp file", func(sCtx provider.StepCtx) {
-		err := p.WriteFile(tempFile, original)
+		err := p.WriteFile(tempFile.Name(), original)
 		t.Assert().NoError(err, "writing roundtrip file")
 	})
 
 	var reconstructed []string
 	t.WithNewStep("Read back from temp file", func(sCtx provider.StepCtx) {
 		var err error
-		reconstructed, err = p.ReadFile(tempFile)
+		reconstructed, err = p.ReadFile(tempFile.Name())
 		t.Assert().NoError(err, "reading roundtrip file")
 	})
 
 	t.WithNewStep("Compare original and reconstructed content", func(sCtx provider.StepCtx) {
 		t.Assert().Equal(original, reconstructed, "roundtrip mismatch")
 	})
-
-	_ = os.Remove(tempFile)
 }
 
 func RoundtripBytes(t provider.T, p parser.Parser, original []string) {
