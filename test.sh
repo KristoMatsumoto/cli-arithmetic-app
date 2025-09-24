@@ -38,9 +38,34 @@ while [[ $# -gt 0 ]]; do
     esac
 done
 
-export ALLURE_OUTPUT_PATH="$(pwd)"       
-export ALLURE_OUTPUT_FOLDER="allure-results"
-export SECRET_KEY="example123456789"
+# Read environment variables
+if [ -f "test.env" ]; then
+    while IFS='=' read -r name value; do
+        # Игнорируем пустые строки и комментарии
+        if [[ -n "$name" && "$name" != \#* ]]; then
+            export "$name=$value"
+        fi
+    done < test.env
+fi
+
+# Properties of allure files path
+# ALLURE_OUTPUT_PATH not specified, ALLURE_OUTPUT_RELATIVE_PATH not specified    
+#       - called in the current directory
+# ALLURE_OUTPUT_PATH not specified, ALLURE_OUTPUT_RELATIVE_PATH specified        
+#       - absolute path is {current_path}/{ALLURE_OUTPUT_RELATIVE_PATH}
+# ALLURE_OUTPUT_PATH specified                                                   
+#       - ignore ALLURE_OUTPUT_RELATIVE_PATH and as result absolute path is as ALLURE_OUTPUT_PATH
+if [ -z "$ALLURE_OUTPUT_PATH" ]; then
+    if [ -n "$ALLURE_OUTPUT_RELATIVE_PATH" ]; then
+        export ALLURE_OUTPUT_PATH="$(pwd)/$ALLURE_OUTPUT_RELATIVE_PATH"
+    else
+        export ALLURE_OUTPUT_PATH="$(pwd)"
+    fi
+fi
+# ...and report path
+if [ -z "$ALLURE_REPORT_FOLDER" ]; then 
+    export ALLURE_REPORT_FOLDER="allure-report"
+fi
 
 # --clean -c
 # Clean old information
@@ -64,8 +89,8 @@ echo "Allure results collected in $ALLURE_OUTPUT_PATH/$ALLURE_OUTPUT_FOLDER."
 # --report -r
 # Report generation
 if [ "$REPORT" = true ]; then
-    allure generate "$ALLURE_OUTPUT_PATH/$ALLURE_OUTPUT_FOLDER" --clean -o "$ALLURE_OUTPUT_PATH/allure-report"
-    echo "HTML report generated in $ALLURE_OUTPUT_PATH/allure-report."
+    allure generate "$ALLURE_OUTPUT_PATH/$ALLURE_OUTPUT_FOLDER" --clean -o "$ALLURE_OUTPUT_PATH/$ALLURE_REPORT_FOLDER"
+    echo "HTML report generated in $ALLURE_OUTPUT_PATH/$ALLURE_REPORT_FOLDER."
 fi
 
 # --server -s

@@ -1,5 +1,5 @@
-# Envirovmental variables
-.env
+# Envirovmental variables (.env and test.env now)
+*.env
 
 # For debug and tests
 test/inputs/
