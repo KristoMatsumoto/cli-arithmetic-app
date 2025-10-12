@@ -58,10 +58,15 @@ $goTestCommand += " ./test/..."
 Invoke-Expression $goTestCommand 
 Write-Host "Allure results collected in $env:ALLURE_OUTPUT_PATH\$env:ALLURE_OUTPUT_FOLDER."
 
+# Locale (default EN)
+if (-not $env:ALLURE_LOCALE) {
+    $env:ALLURE_LOCALE = "en"
+}
+
 # -report
 # Report generation
 if ($report) { 
-    allure generate "$env:ALLURE_OUTPUT_PATH\$env:ALLURE_OUTPUT_FOLDER" --clean -o "$env:ALLURE_OUTPUT_PATH\$env:ALLURE_REPORT_FOLDER"
+    allure generate "$env:ALLURE_OUTPUT_PATH\$env:ALLURE_OUTPUT_FOLDER" --clean -o "$env:ALLURE_OUTPUT_PATH\$env:ALLURE_REPORT_FOLDER" --locale $env:ALLURE_LOCALE
     Write-Host "HTML report generated in $env:ALLURE_OUTPUT_PATH\$env:ALLURE_REPORT_FOLDER."
 }
 
@@ -69,5 +74,5 @@ if ($report) {
 # Starting Allure host
 if ($server) {
     Write-Host "Starting Allure server..."
-    allure serve "$env:ALLURE_OUTPUT_PATH\$env:ALLURE_OUTPUT_FOLDER"
+    allure serve "$env:ALLURE_OUTPUT_PATH\$env:ALLURE_OUTPUT_FOLDER" --locale $env:ALLURE_LOCALE
 }

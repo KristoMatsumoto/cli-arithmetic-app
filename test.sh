@@ -86,10 +86,15 @@ GO_TEST_CMD+=" ./..."
 eval $GO_TEST_CMD
 echo "Allure results collected in $ALLURE_OUTPUT_PATH/$ALLURE_OUTPUT_FOLDER."
 
+# Locale (default EN)
+if [ -z "$ALLURE_LOCALE" ]; then
+    export ALLURE_LOCALE="en"
+fi
+
 # --report -r
 # Report generation
 if [ "$REPORT" = true ]; then
-    allure generate "$ALLURE_OUTPUT_PATH/$ALLURE_OUTPUT_FOLDER" --clean -o "$ALLURE_OUTPUT_PATH/$ALLURE_REPORT_FOLDER"
+    allure generate "$ALLURE_OUTPUT_PATH/$ALLURE_OUTPUT_FOLDER" --clean -o "$ALLURE_OUTPUT_PATH/$ALLURE_REPORT_FOLDER" --locale $ALLURE_LOCALE
     echo "HTML report generated in $ALLURE_OUTPUT_PATH/$ALLURE_REPORT_FOLDER."
 fi
 
@@ -97,5 +102,5 @@ fi
 # Starting Allure host
 if [ "$SERVER" = true ]; then
     echo "Starting Allure server..."
-    allure serve "$ALLURE_OUTPUT_PATH/$ALLURE_OUTPUT_FOLDER"
+    allure serve "$ALLURE_OUTPUT_PATH/$ALLURE_OUTPUT_FOLDER" --locale $ALLURE_LOCALE
 fi
