@@ -1,6 +1,7 @@
 package encryptor
 
 import (
+	"bytes"
 	"crypto/aes"
 	"crypto/cipher"
 	"crypto/rand"
@@ -9,12 +10,14 @@ import (
 	"os"
 )
 
+var aesCFBHeader = []byte("ENCv1:")
+
 type AESTransformer struct {
 	key []byte
 }
 
 func NewAESTransformer() (*AESTransformer, error) {
-	key := os.Getenv("SECRET_KEY")
+	key := os.Getenv("SECRET_KEY_16")
 	if key == "" {
 		return nil, fmt.Errorf("SECRET_KEY not set in environment")
 	}
@@ -38,7 +41,9 @@ func (encryptor *AESTransformer) Encode(input []byte) ([]byte, error) {
 		return nil, err
 	}
 
-	ciphertext := make([]byte, aes.BlockSize+len(input))
+	plain := append(aesCFBHeader, input...)
+
+	ciphertext := make([]byte, aes.BlockSize+len(plain))
 	iv := ciphertext[:aes.BlockSize]
 
 	if _, err := io.ReadFull(rand.Reader, iv); err != nil {
@@ -46,19 +51,19 @@ func (encryptor *AESTransformer) Encode(input []byte) ([]byte, error) {
 	}
 
 	stream := cipher.NewCFBEncrypter(block, iv)
-	stream.XORKeyStream(ciphertext[aes.BlockSize:], input)
+	stream.XORKeyStream(ciphertext[aes.BlockSize:], plain)
 
 	return ciphertext, nil
 }
 
 func (encryptor *AESTransformer) Decode(input []byte) ([]byte, error) {
+	if len(input) < aes.BlockSize {
+		return nil, fmt.Errorf("ciphertext too short")
+	}
+
 	block, err := aes.NewCipher(encryptor.key)
 	if err != nil {
 		return nil, err
-	}
-
-	if len(input) < aes.BlockSize {
-		return nil, fmt.Errorf("ciphertext too short")
 	}
 
 	iv := input[:aes.BlockSize]
@@ -67,5 +72,13 @@ func (encryptor *AESTransformer) Decode(input []byte) ([]byte, error) {
 	stream := cipher.NewCFBDecrypter(block, iv)
 	stream.XORKeyStream(ciphertext, ciphertext)
 
-	return ciphertext, nil
+	// verify header
+	if len(ciphertext) < len(aesCFBHeader) || !bytes.Equal(ciphertext[:len(aesCFBHeader)], aesCFBHeader) {
+		return nil, fmt.Errorf("invalid ciphertext or header mismatch")
+	}
+	plain := ciphertext[len(aesCFBHeader):]
+	if plain == nil {
+		return []byte{}, nil
+	}
+	return plain, nil
 }

@@ -1,0 +1,9 @@
+{
+    "message": "Encrypt this data: Привет, мир! 🔐",
+    "id": 42,
+    "payload": {
+        "type": "sensitive",
+        "valid": true,
+        "content": "The quick brown fox jumps over the lazy dog"
+    }
+}

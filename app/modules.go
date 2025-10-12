@@ -64,12 +64,14 @@ var transformerRegistry = map[string]func() (transformer.Transformer, error){
 
 	"3des":              func() (transformer.Transformer, error) { return encryptor.NewTripleDESTransformer() },
 	"aes":               func() (transformer.Transformer, error) { return encryptor.NewAESTransformer() },
+	"aes-cbc":           func() (transformer.Transformer, error) { return encryptor.NewAESCBCTransformer() },
 	"aes-gcm":           func() (transformer.Transformer, error) { return encryptor.NewAESGCMTransformer() },
 	"blowfish":          func() (transformer.Transformer, error) { return encryptor.NewBlowfishTransformer() },
 	"chacha20":          func() (transformer.Transformer, error) { return encryptor.NewChaCha20Transformer() },
 	"chacha20-poly1305": func() (transformer.Transformer, error) { return encryptor.NewChaCha20Poly1305Transformer() },
-	"gost28147":         func() (transformer.Transformer, error) { return encryptor.NewGOST28147Transformer() },
+	"gost-28147":        func() (transformer.Transformer, error) { return encryptor.NewGOST28147Transformer() },
 	"rc4":               func() (transformer.Transformer, error) { return encryptor.NewRC4Transformer() },
+	"xor":               func() (transformer.Transformer, error) { return encryptor.NewXORTransformer() },
 }
 
 func CreateTransformer(name string) (transformer.Transformer, error) {

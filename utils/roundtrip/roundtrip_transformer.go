@@ -6,7 +6,7 @@ import (
 	"github.com/ozontech/allure-go/pkg/framework/provider"
 )
 
-func RoundtripTransformer(t provider.T, tr transformer.Transformer, data []byte) {
+func RunRoundtripTransformer(t provider.T, tr transformer.Transformer, data []byte) {
 	var encoded []byte
 	t.WithNewStep("Encode data", func(sCtx provider.StepCtx) {
 		var err error

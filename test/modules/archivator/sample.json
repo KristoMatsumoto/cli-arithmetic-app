@@ -1,0 +1,9 @@
+{
+    "message": "The quick brown fox jumps over the lazy dog",
+    "id": 123,
+    "nested": {
+        "numbers": [1, 2, 3, 4, 5],
+        "status": true
+    },
+    "description": "Small sample JSON to test roundtrip compression"
+}
