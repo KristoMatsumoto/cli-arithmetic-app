@@ -4,8 +4,9 @@ import (
 	"fmt"
 	"testing"
 
+	"github.com/ozontech/allure-go/pkg/allure"
 	"github.com/ozontech/allure-go/pkg/framework/provider"
-	"github.com/ozontech/allure-go/pkg/framework/runner"
+	"github.com/ozontech/allure-go/pkg/framework/suite"
 
 	"cli-arithmetic-app/modules/archivator"
 	"cli-arithmetic-app/modules/transformer"
@@ -13,31 +14,65 @@ import (
 	"cli-arithmetic-app/utils/testrunners"
 )
 
-var transformers = []transformer.Transformer{
-	archivator.NewBrotliTransformer(),
-	archivator.NewGZIPTransformer(),
-	archivator.NewLZ4Transformer(),
-	archivator.NewZIPTransformer(),
-	archivator.NewZIPXTransformer(),
-	archivator.NewTARTransformer(),
-	archivator.NewZSTDTransformer(),
+type ArchivatorSuite struct {
+	suite.Suite
+	data []byte
 }
 
-func TestTransformer_ArchivatorsAll(t *testing.T) {
-	var data []byte
-
-	runner.Run(t, "Load data", func(tt provider.T) {
-		data = cases.LoadCases(t, "./sample.json")
-		tt.Assert().True(data != nil)
+func (s *ArchivatorSuite) BeforeAll(t provider.T) {
+	t.WithNewStep("Load encryption test data", func(sCtx provider.StepCtx) {
+		var err error
+		s.data, err = cases.LoadCases("./sample.json")
+		sCtx.Assert().NoError(err, "failed to load data")
 	})
+}
 
-	for _, tr := range transformers {
-		tr := tr
-		runner.Run(t, fmt.Sprintf("Testing %s transformer (archivator)", tr.Name()), func(t provider.T) {
-			testrunners.RunCommonTransformerTests(t, tr, data)
-			testrunners.RunEmptyInputTest(t, tr)
-			testrunners.RunInvalidDataTest(t, tr)
-			testrunners.RunLargeDataTest(t, tr)
-		})
-	}
+func (s *ArchivatorSuite) BeforeEach(t provider.T) {
+	t.Epic("App")
+	t.Feature("Archivators")
+	t.Tags("app", "archive", "arhivator")
+	// t.Owner("github.com/KristoMatsumoto")
+}
+
+func (s *ArchivatorSuite) testArchivator(t provider.T, a transformer.Transformer) {
+	t.Title("Archivator")
+	t.Description(fmt.Sprintf("Full encode/decode validation for %s transformer", a.Name()))
+	t.WithParameters(allure.NewParameter("transformer", a.Name()))
+
+	testrunners.RunCommonTransformerTests(t, a, s.data)
+	testrunners.RunEmptyInputTest(t, a)
+	testrunners.RunInvalidDataTest(t, a)
+	testrunners.RunLargeDataTest(t, a)
+}
+
+func (s *ArchivatorSuite) TestBrotli(t provider.T) {
+	s.testArchivator(t, archivator.NewBrotliTransformer())
+}
+
+func (s *ArchivatorSuite) TestGZIP(t provider.T) {
+	s.testArchivator(t, archivator.NewGZIPTransformer())
+}
+
+func (s *ArchivatorSuite) TestLZ4(t provider.T) {
+	s.testArchivator(t, archivator.NewLZ4Transformer())
+}
+
+func (s *ArchivatorSuite) TestTAR(t provider.T) {
+	s.testArchivator(t, archivator.NewTARTransformer())
+}
+
+func (s *ArchivatorSuite) TestZIP(t provider.T) {
+	s.testArchivator(t, archivator.NewZIPTransformer())
+}
+
+func (s *ArchivatorSuite) TestZIPX(t provider.T) {
+	s.testArchivator(t, archivator.NewZIPXTransformer())
+}
+
+func (s *ArchivatorSuite) TestZSTD(t provider.T) {
+	s.testArchivator(t, archivator.NewZSTDTransformer())
+}
+
+func TestArchivatorSuite(t *testing.T) {
+	suite.RunSuite(t, new(ArchivatorSuite))
 }

@@ -2,14 +2,13 @@ package cases
 
 import (
 	"os"
-	"testing"
 )
 
-func LoadCases(t *testing.T, path string) []byte {
+func LoadCases(path string) ([]byte, error) {
 	data, err := os.ReadFile(path)
 	if err != nil {
-		t.Fatalf("Failed to read %s: %v", path, err)
+		return nil, err
 	}
 
-	return data
+	return data, nil
 }
