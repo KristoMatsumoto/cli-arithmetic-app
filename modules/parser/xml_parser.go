@@ -11,6 +11,10 @@ func NewXMLParser() *XMLParser {
 	return &XMLParser{}
 }
 
+func (parser *XMLParser) Format() string {
+	return "xml"
+}
+
 type xmlWrapper struct {
 	Lines []string `xml:"line"`
 }

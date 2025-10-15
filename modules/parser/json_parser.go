@@ -11,6 +11,10 @@ func NewJSONParser() *JSONParser {
 	return &JSONParser{}
 }
 
+func (parser *JSONParser) Format() string {
+	return "json"
+}
+
 func (parser *JSONParser) ReadFile(path string) ([]string, error) {
 	file, err := os.ReadFile(path)
 	if err != nil {

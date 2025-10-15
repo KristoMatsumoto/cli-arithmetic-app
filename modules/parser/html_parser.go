@@ -14,6 +14,10 @@ func NewHTMLParser() *HTMLParser {
 	return &HTMLParser{}
 }
 
+func (parser *HTMLParser) Format() string {
+	return "html"
+}
+
 func (parser *HTMLParser) ReadFile(path string) ([]string, error) {
 	file, err := os.ReadFile(path)
 	if err != nil {

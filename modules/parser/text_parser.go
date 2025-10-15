@@ -12,6 +12,10 @@ func NewTextParser() *TextParser {
 	return &TextParser{}
 }
 
+func (parser *TextParser) Format() string {
+	return "txt"
+}
+
 func (parser *TextParser) ReadFile(path string) ([]string, error) {
 	file, err := os.ReadFile(path)
 	if err != nil {

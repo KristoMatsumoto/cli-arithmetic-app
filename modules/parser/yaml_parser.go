@@ -12,6 +12,10 @@ func NewYAMLParser() *YAMLParser {
 	return &YAMLParser{}
 }
 
+func (parser *YAMLParser) Format() string {
+	return "yaml"
+}
+
 func (parser *YAMLParser) ReadFile(path string) ([]string, error) {
 	file, err := os.ReadFile(path)
 	if err != nil {
