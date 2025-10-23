@@ -1,7 +1,7 @@
 package naive_processor
 
 import (
-	"cli-arithmetic-app/modules/processor"
+	"cli-arithmetic-app/app/modules/processor"
 	"strings"
 )
 

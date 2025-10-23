@@ -8,10 +8,10 @@ import (
 	"github.com/ozontech/allure-go/pkg/framework/provider"
 	"github.com/ozontech/allure-go/pkg/framework/suite"
 
-	"cli-arithmetic-app/modules/archivator"
-	"cli-arithmetic-app/modules/transformer"
-	"cli-arithmetic-app/utils/cases"
-	"cli-arithmetic-app/utils/testrunners"
+	"cli-arithmetic-app/app/modules/archivator"
+	"cli-arithmetic-app/app/modules/transformer"
+	"cli-arithmetic-app/app/utils/cases"
+	"cli-arithmetic-app/app/utils/testrunners"
 )
 
 type ArchivatorSuite struct {

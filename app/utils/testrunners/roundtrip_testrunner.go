@@ -1,8 +1,8 @@
 package testrunners
 
 import (
-	"cli-arithmetic-app/modules/parser"
-	"cli-arithmetic-app/modules/transformer"
+	"cli-arithmetic-app/app/modules/parser"
+	"cli-arithmetic-app/app/modules/transformer"
 	"os"
 
 	"github.com/ozontech/allure-go/pkg/framework/provider"

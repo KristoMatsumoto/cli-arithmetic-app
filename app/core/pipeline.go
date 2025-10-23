@@ -1,12 +1,14 @@
-package app
+package core
 
 import (
-	logger "cli-arithmetic-app/log"
+	logger "cli-arithmetic-app/app/log"
 	"fmt"
 	"os"
+
+	"github.com/joho/godotenv"
 )
 
-func ExecuteProcessingPipeline(options PipelineOptions) error {
+func pipeline(options PipelineOptions) error {
 	logger.Log.Infof("Executing logic version %s", options.Version)
 	logger.Log.Infof(
 		"Running with input: %s, output: %s, format: %s, processor: %s, transforms: %v",
@@ -86,4 +88,17 @@ func ExecuteProcessingPipeline(options PipelineOptions) error {
 
 	logger.Log.Info("Processing pipeline finished successfully")
 	return nil
+}
+
+func ExecuteProcessingPipeline(options PipelineOptions) error {
+	// Add environment variables
+	if err := godotenv.Load(); err != nil {
+		// logger.Log.Warn("No .env file found (skipping)")
+		fmt.Print("No .env file found (skipping)")
+	}
+
+	// Logger
+	logger.InitLogger()
+
+	return pipeline(options)
 }

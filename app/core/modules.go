@@ -1,14 +1,14 @@
-package app
+package core
 
 import (
-	"cli-arithmetic-app/modules/archivator"
-	"cli-arithmetic-app/modules/encryptor"
-	"cli-arithmetic-app/modules/parser"
-	"cli-arithmetic-app/modules/processor"
-	"cli-arithmetic-app/modules/processor/lib_processor"
-	"cli-arithmetic-app/modules/processor/naive_processor"
-	"cli-arithmetic-app/modules/processor/regex_processor"
-	"cli-arithmetic-app/modules/transformer"
+	"cli-arithmetic-app/app/modules/archivator"
+	"cli-arithmetic-app/app/modules/encryptor"
+	"cli-arithmetic-app/app/modules/parser"
+	"cli-arithmetic-app/app/modules/processor"
+	"cli-arithmetic-app/app/modules/processor/lib_processor"
+	"cli-arithmetic-app/app/modules/processor/naive_processor"
+	"cli-arithmetic-app/app/modules/processor/regex_processor"
+	"cli-arithmetic-app/app/modules/transformer"
 
 	"fmt"
 )

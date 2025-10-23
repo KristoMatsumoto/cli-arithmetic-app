@@ -1,8 +1,8 @@
 package parser_test
 
 import (
-	"cli-arithmetic-app/modules/parser"
-	"cli-arithmetic-app/utils/testrunners"
+	"cli-arithmetic-app/app/modules/parser"
+	"cli-arithmetic-app/app/utils/testrunners"
 	"fmt"
 	"os"
 	"path/filepath"

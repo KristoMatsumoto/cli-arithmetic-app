@@ -1,8 +1,8 @@
 package processor_test
 
 import (
-	"cli-arithmetic-app/modules/processor"
-	"cli-arithmetic-app/utils/cases"
+	"cli-arithmetic-app/app/modules/processor"
+	"cli-arithmetic-app/app/utils/cases"
 	"encoding/json"
 	"testing"
 

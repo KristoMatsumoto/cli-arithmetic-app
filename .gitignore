@@ -2,11 +2,11 @@
 *.env
 
 # For debug and tests
-test/inputs/
-test/outputs/
+app/test/inputs/
+app/test/outputs/
 
 # Logs
-log/output*
+app/log/output*
 
 # Allure
 allure-results/

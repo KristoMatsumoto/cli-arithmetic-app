@@ -4,7 +4,7 @@ package lib_processor
 //go:generate pigeon -o split_token.go expression.peg
 
 import (
-	"cli-arithmetic-app/modules/processor"
+	"cli-arithmetic-app/app/modules/processor"
 	"math"
 	"strings"
 )

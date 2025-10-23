@@ -1,9 +1,9 @@
 package transformer_test
 
 import (
-	"cli-arithmetic-app/modules/archivator"
-	"cli-arithmetic-app/modules/encryptor"
-	"cli-arithmetic-app/modules/transformer"
+	"cli-arithmetic-app/app/modules/archivator"
+	"cli-arithmetic-app/app/modules/encryptor"
+	"cli-arithmetic-app/app/modules/transformer"
 	"testing"
 
 	"github.com/ozontech/allure-go/pkg/framework/provider"

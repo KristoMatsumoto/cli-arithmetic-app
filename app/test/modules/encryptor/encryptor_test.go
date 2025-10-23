@@ -1,10 +1,10 @@
 package encryptor_test
 
 import (
-	"cli-arithmetic-app/modules/encryptor"
-	"cli-arithmetic-app/modules/transformer"
-	"cli-arithmetic-app/utils/cases"
-	"cli-arithmetic-app/utils/testrunners"
+	"cli-arithmetic-app/app/modules/encryptor"
+	"cli-arithmetic-app/app/modules/transformer"
+	"cli-arithmetic-app/app/utils/cases"
+	"cli-arithmetic-app/app/utils/testrunners"
 	"fmt"
 	"testing"
 

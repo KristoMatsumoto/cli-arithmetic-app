@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"fmt"
 
-	"cli-arithmetic-app/modules/transformer"
+	"cli-arithmetic-app/app/modules/transformer"
 
 	"github.com/ozontech/allure-go/pkg/framework/provider"
 )
