@@ -12,7 +12,7 @@ func InitLogger() {
 	Log = logrus.New()
 
 	// Output to file
-	file, err := os.OpenFile("log/output.log", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
+	file, err := os.OpenFile("app/log/output.log", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
 	if err != nil {
 		Log.Out = os.Stdout
 		Log.Warn("Failed to log to file, using default stderr")

@@ -1,6 +1,7 @@
 package main
 
 import (
+	"cli-arithmetic-app/cli/core"
 	"fmt"
 	"os"
 )
@@ -24,10 +25,18 @@ func main() {
 	Execute()
 }
 
+func Execute() {
+	if err := core.RootCmd.Execute(); err != nil {
+		// logger.Log.Fatalf("Error starting CLI: %v", err)
+		fmt.Printf("Error starting CLI: %v", err)
+		os.Exit(1)
+	}
+}
+
 func handlePanic() {
 	if err := recover(); err != nil {
 		// logger.Log.Fatalf("Error: %v", err)
-		fmt.Errorf("Error: %v", err)
+		fmt.Printf("Error: %v", err)
 		os.Exit(1)
 	}
 }
