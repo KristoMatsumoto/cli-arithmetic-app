@@ -1,6 +1,9 @@
 # Envirovmental variables (.env and test.env now)
 *.env
 
+# Configuration
+app/config/config.yaml
+
 # For debug and tests
 app/test/inputs/
 app/test/outputs/
