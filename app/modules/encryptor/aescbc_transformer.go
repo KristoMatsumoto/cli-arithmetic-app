@@ -2,12 +2,12 @@ package encryptor
 
 import (
 	"bytes"
+	"cli-arithmetic-app/app/config"
 	"crypto/aes"
 	"crypto/cipher"
 	"crypto/rand"
 	"fmt"
 	"io"
-	"os"
 )
 
 // AESCBCTransformer — AES в режиме CBC с PKCS7 паддингом.
@@ -17,7 +17,8 @@ type AESCBCTransformer struct {
 }
 
 func NewAESCBCTransformer() (*AESCBCTransformer, error) {
-	k := []byte(os.Getenv("SECRET_KEY_16"))
+	config.GetConfig()
+	k := []byte(config.C.SecretKeys.S_16)
 	switch len(k) {
 	case 16, 24, 32:
 		// ok

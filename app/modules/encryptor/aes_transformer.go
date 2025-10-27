@@ -2,12 +2,12 @@ package encryptor
 
 import (
 	"bytes"
+	"cli-arithmetic-app/app/config"
 	"crypto/aes"
 	"crypto/cipher"
 	"crypto/rand"
 	"fmt"
 	"io"
-	"os"
 )
 
 var aesCFBHeader = []byte("ENCv1:")
@@ -17,12 +17,8 @@ type AESTransformer struct {
 }
 
 func NewAESTransformer() (*AESTransformer, error) {
-	key := os.Getenv("SECRET_KEY_16")
-	if key == "" {
-		return nil, fmt.Errorf("SECRET_KEY not set in environment")
-	}
-
-	k := []byte(key)
+	config.GetConfig()
+	k := []byte(config.C.SecretKeys.S_16)
 	switch len(k) {
 	case 16, 24, 32:
 		// ok

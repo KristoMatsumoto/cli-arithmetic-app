@@ -2,11 +2,11 @@ package encryptor
 
 import (
 	"bytes"
+	"cli-arithmetic-app/app/config"
 	"crypto/cipher"
 	"crypto/rand"
 	"fmt"
 	"io"
-	"os"
 
 	"golang.org/x/crypto/blowfish"
 )
@@ -16,7 +16,8 @@ type BlowfishTransformer struct {
 }
 
 func NewBlowfishTransformer() (*BlowfishTransformer, error) {
-	k := []byte(os.Getenv("SECRET_KEY_16"))
+	config.GetConfig()
+	k := []byte(config.C.SecretKeys.S_16)
 	if len(k) < 1 || len(k) > 56 {
 		return nil, fmt.Errorf("SECRET_KEY must be 1-56 bytes for Blowfish")
 	}

@@ -1,11 +1,11 @@
 package encryptor
 
 import (
+	"cli-arithmetic-app/app/config"
 	"crypto/cipher"
 	"crypto/rand"
 	"fmt"
 	"io"
-	"os"
 
 	"github.com/ddulesov/gogost/gost28147"
 )
@@ -15,7 +15,8 @@ type GOST28147Transformer struct {
 }
 
 func NewGOST28147Transformer() (*GOST28147Transformer, error) {
-	k := []byte(os.Getenv("SECRET_KEY_32"))
+	config.GetConfig()
+	k := []byte(config.C.SecretKeys.S_32)
 	if len(k) != 32 {
 		return nil, fmt.Errorf("SECRET KEY must be 32 bytes for GOST")
 	}

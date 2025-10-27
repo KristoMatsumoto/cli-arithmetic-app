@@ -2,10 +2,10 @@ package encryptor
 
 import (
 	"bytes"
+	"cli-arithmetic-app/app/config"
 	"crypto/rand"
 	"fmt"
 	"io"
-	"os"
 
 	"golang.org/x/crypto/chacha20"
 )
@@ -17,7 +17,8 @@ type ChaCha20Transformer struct {
 }
 
 func NewChaCha20Transformer() (*ChaCha20Transformer, error) {
-	k := []byte(os.Getenv("SECRET_KEY_32"))
+	config.GetConfig()
+	k := []byte(config.C.SecretKeys.S_32)
 	if len(k) != chacha20.KeySize {
 		return nil, fmt.Errorf("SECRET KEY must be %d bytes for ChaCha20", chacha20.KeySize)
 	}

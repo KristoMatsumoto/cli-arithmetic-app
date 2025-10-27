@@ -2,9 +2,9 @@ package encryptor
 
 import (
 	"bytes"
+	"cli-arithmetic-app/app/config"
 	"crypto/rc4"
 	"fmt"
-	"os"
 )
 
 var rc4Header = []byte("ENCv1:")
@@ -14,7 +14,8 @@ type RC4Transformer struct {
 }
 
 func NewRC4Transformer() (*RC4Transformer, error) {
-	k := []byte(os.Getenv("SECRET_KEY_16"))
+	config.GetConfig()
+	k := []byte(config.C.SecretKeys.S_16)
 	if len(k) < 1 || len(k) > 256 {
 		return nil, fmt.Errorf("SECRET KEY must be 1-256 bytes for RC4")
 	}

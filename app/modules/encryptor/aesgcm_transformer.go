@@ -1,12 +1,12 @@
 package encryptor
 
 import (
+	"cli-arithmetic-app/app/config"
 	"crypto/aes"
 	"crypto/cipher"
 	"crypto/rand"
 	"fmt"
 	"io"
-	"os"
 )
 
 type AESGCMTransformer struct {
@@ -14,7 +14,8 @@ type AESGCMTransformer struct {
 }
 
 func NewAESGCMTransformer() (*AESGCMTransformer, error) {
-	k := []byte(os.Getenv("SECRET_KEY_16"))
+	config.GetConfig()
+	k := []byte(config.C.SecretKeys.S_16)
 	switch len(k) {
 	case 16, 24, 32:
 	default:

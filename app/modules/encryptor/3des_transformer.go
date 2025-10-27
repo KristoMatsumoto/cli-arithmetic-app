@@ -2,12 +2,12 @@ package encryptor
 
 import (
 	"bytes"
+	"cli-arithmetic-app/app/config"
 	"crypto/cipher"
 	"crypto/des"
 	"crypto/rand"
 	"fmt"
 	"io"
-	"os"
 )
 
 var tripleDESHeader = []byte("ENCv1:")
@@ -17,7 +17,8 @@ type TripleDESTransformer struct {
 }
 
 func NewTripleDESTransformer() (*TripleDESTransformer, error) {
-	k := []byte(os.Getenv("SECRET_KEY_24"))
+	config.GetConfig()
+	k := []byte(config.C.SecretKeys.S_24)
 	if len(k) != 24 {
 		return nil, fmt.Errorf("SECRET KEY must be 24 bytes for 3DES")
 	}

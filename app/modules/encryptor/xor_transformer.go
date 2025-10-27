@@ -2,8 +2,8 @@ package encryptor
 
 import (
 	"bytes"
+	"cli-arithmetic-app/app/config"
 	"fmt"
-	"os"
 )
 
 var xorHeader = []byte("XORv1:")
@@ -13,7 +13,8 @@ type XORTransformer struct {
 }
 
 func NewXORTransformer() (*XORTransformer, error) {
-	k := []byte(os.Getenv("SECRET_KEY_16"))
+	config.GetConfig()
+	k := []byte(config.C.SecretKeys.S_16)
 	if len(k) != 16 {
 		return nil, fmt.Errorf("SECRET_KEY_16 must be 16 bytes for XORTransformer")
 	}
