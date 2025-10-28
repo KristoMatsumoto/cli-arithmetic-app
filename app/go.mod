@@ -3,7 +3,6 @@ module cli-arithmetic-app/app
 go 1.24.5
 
 require (
-	github.com/joho/godotenv v1.5.1
 	github.com/ozontech/allure-go/pkg/allure v0.6.14
 	golang.org/x/net v0.43.0
 	gopkg.in/yaml.v3 v3.0.1
