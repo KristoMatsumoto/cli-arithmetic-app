@@ -4,8 +4,6 @@ import (
 	logger "cli-arithmetic-app/app/log"
 	"fmt"
 	"os"
-
-	"github.com/joho/godotenv"
 )
 
 func pipeline(options PipelineOptions) error {
@@ -49,19 +47,10 @@ func pipeline(options PipelineOptions) error {
 	}
 	logger.Log.Infof("Read %d lines", len(lines))
 
-	// Get processor
-	logger.Log.Infof("Starting processor %s", options.ProcessorType)
-	processorInstance, err := CreateProcessor(options.ProcessorType)
+	processed, err := process(lines, options.ProcessorType)
 	if err != nil {
 		return err
 	}
-
-	// Process
-	processed, err := processorInstance.Process(lines)
-	if err != nil {
-		return err
-	}
-	logger.Log.Infof("Processing completed: %d lines", len(processed))
 
 	// Write output
 	outBytes, err := parserInstance.SerializeBytes(processed)
@@ -90,15 +79,53 @@ func pipeline(options PipelineOptions) error {
 	return nil
 }
 
-func ExecuteProcessingPipeline(options PipelineOptions) error {
-	// Add environment variables
-	if err := godotenv.Load(); err != nil {
-		// logger.Log.Warn("No .env file found (skipping)")
-		fmt.Print("No .env file found (skipping)")
+func process(lines []string, processorType string) ([]string, error) {
+	// logger.Log.Infof("Starting processor %s", processorType)
+	processorInstance, err := CreateProcessor(processorType)
+	if err != nil {
+		return nil, err
 	}
 
-	// Logger
-	logger.InitLogger()
+	// logger.Log.Infof("Processing completed: %d lines", len(processed))
+	return processorInstance.Process(lines)
+}
 
-	return pipeline(options)
+func parse(bytes []byte, format string) ([]string, error) {
+	p, err := CreateParser(format)
+	if err != nil {
+		return nil, err
+	}
+	// logger.Log.Info("The parser has been selected")
+
+	return p.ParseBytes(bytes)
+}
+
+func compose(lines []string, format string) ([]byte, error) {
+	p, err := CreateParser(format)
+	if err != nil {
+		return nil, err
+	}
+	// logger.Log.Info("The parser has been selected")
+
+	return p.SerializeBytes(lines)
+}
+
+func transform(bytes []byte, format string) ([]byte, error) {
+	transformer, errInit := CreateTransformer(format)
+	if errInit != nil {
+		return nil, errInit
+	}
+
+	return transformer.Encode(bytes)
+}
+
+func transformWithChain(bytes []byte, formats []string) ([]byte, error) {
+	for _, transformerFormat := range formats {
+		var err error
+		bytes, err = transform(bytes, transformerFormat)
+		if err != nil {
+			return bytes, err
+		}
+	}
+	return bytes, nil
 }
