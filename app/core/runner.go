@@ -35,10 +35,18 @@ func ExecuteCompose(lines []string, format string) ([]byte, error) {
 	return compose(lines, format)
 }
 
-func ExecuteTransform(bytes []byte, format string) ([]byte, error) {
-	return transform(bytes, format)
+func ExecuteEncode(bytes []byte, format string) ([]byte, error) {
+	return encode(bytes, format)
 }
 
-func ExecuteTransforms(bytes []byte, formats []string) ([]byte, error) {
-	return transformWithChain(bytes, formats)
+func ExecuteEncodeMany(bytes []byte, formats []string) ([]byte, error) {
+	return encodeWithChain(bytes, formats)
+}
+
+func ExecuteDecode(bytes []byte, format string) ([]byte, error) {
+	return decode(bytes, format)
+}
+
+func ExecuteDecodeMany(bytes []byte, formats []string) ([]byte, error) {
+	return decodeWithChain(bytes, formats)
 }

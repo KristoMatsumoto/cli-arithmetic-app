@@ -110,7 +110,7 @@ func compose(lines []string, format string) ([]byte, error) {
 	return p.SerializeBytes(lines)
 }
 
-func transform(bytes []byte, format string) ([]byte, error) {
+func encode(bytes []byte, format string) ([]byte, error) {
 	transformer, errInit := CreateTransformer(format)
 	if errInit != nil {
 		return nil, errInit
@@ -119,10 +119,30 @@ func transform(bytes []byte, format string) ([]byte, error) {
 	return transformer.Encode(bytes)
 }
 
-func transformWithChain(bytes []byte, formats []string) ([]byte, error) {
+func encodeWithChain(bytes []byte, formats []string) ([]byte, error) {
 	for _, transformerFormat := range formats {
 		var err error
-		bytes, err = transform(bytes, transformerFormat)
+		bytes, err = encode(bytes, transformerFormat)
+		if err != nil {
+			return bytes, err
+		}
+	}
+	return bytes, nil
+}
+
+func decode(bytes []byte, format string) ([]byte, error) {
+	transformer, errInit := CreateTransformer(format)
+	if errInit != nil {
+		return nil, errInit
+	}
+
+	return transformer.Decode(bytes)
+}
+
+func decodeWithChain(bytes []byte, formats []string) ([]byte, error) {
+	for _, transformerFormat := range formats {
+		var err error
+		bytes, err = decode(bytes, transformerFormat)
 		if err != nil {
 			return bytes, err
 		}

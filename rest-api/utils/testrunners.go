@@ -32,7 +32,7 @@ func RunTestRouteOK(t provider.T, router *gin.Engine, route string, payload []by
 	router.ServeHTTP(resp, req)
 
 	t.WithNewStep("Check response code", func(sCtx provider.StepCtx) {
-		sCtx.Require().Equal(http.StatusOK, resp.Code)
+		sCtx.Assert().Equal(http.StatusOK, resp.Code)
 	})
 	t.WithNewStep("Check JSON structure", func(sCtx provider.StepCtx) {
 		sCtx.Assert().Contains(f(resp), contains)
@@ -48,7 +48,7 @@ func RunErrorCheckingTest(t provider.T, router *gin.Engine, route string, payloa
 	router.ServeHTTP(resp, req)
 
 	t.WithNewStep("Checking an invalid request", func(sCtx provider.StepCtx) {
-		sCtx.Require().Equal(errorHTTP, resp.Code)
+		sCtx.Assert().Equal(errorHTTP, resp.Code)
 		sCtx.Assert().Contains(resp.Body.String(), `"error":`)
 	})
 }
