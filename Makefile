@@ -12,7 +12,7 @@ TEST_ENV_FILE ?= test.env
 
 # ---- TARGETS ----
 
-.PHONY: env help test test-app test-cli test-rest-api test-soap-api clean report serve open allure-tests
+.PHONY: env help test test-app test-cli test-rest-api test-soap-api clean report serve open allure-t allure-ct
 
 env:
 	envsubst < $(TEST_ENV_FILE)
@@ -24,17 +24,21 @@ help:
 	@printf "  \033[1;33mmake test-cli\033[0m       	Run Go tests for CLI\n"
 	@printf "  \033[1;33mmake test-rest-api\033[0m  	Run Go tests for REST API\n"
 	@printf "  \033[1;33mmake test-soap-api\033[0m  	Run Go tests for SOAP API\n"
-	@printf "  \033[1;33mmake test-allure\033[0m    	Run Go tests with clean and Allure report\n"
+	@printf "  \033[1;33mmake allure-t\033[0m    		Run Go tests with Allure report\n"
+	@printf "  \033[1;33mmake allure-ct\033[0m    		Run Go tests with clean and Allure report\n"
 	@printf "  \033[1;33mmake report\033[0m         	Generate Allure report\n"
 	@printf "  \033[1;33mmake serve\033[0m          	Start Allure server\n"
 	@printf "  \033[1;33mmake clean\033[0m          	Clean allure-results and allure-report\n"
 	@printf "  \033[1;33mmake open\033[0m           	Open existing Allure report\n\n"
 
 ## allure-tests — full cycle
-allure-tests: clean test report open
+allure-t: test report open
+
+## allure-tests-clean — full cycle with cleaning
+allure-ct: clean test report open
 
 ## test — run all tests
-test: env test-app test-cli test-rest-api test-soap-api
+test: test-app test-cli test-rest-api test-soap-api
 	@echo All tests have been completed.
 
 ## test-app — run app tests
